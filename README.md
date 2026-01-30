@@ -1,20 +1,19 @@
 # Axon
 
-**SAAS**  
-In progress
+A lightweight, self-hostable Notion alternative with AI-powered editing.
 
-A note editor app similar to Notion.
+## Features
+- AI-assisted autocompletion while you write
+- Hierarchical file tree for organizing pages
+- Real-time auto-saving
+- Clean, minimal UI designed for focus
+- Core Notion functionality without the bloat
 
-## Description
+## Tech Stack
+Next.js • Express • Bun • MongoDB
 
-Developing a Notion-like editor with AI features, focusing on minimal designs and features for higher productivity. The aim is to allow users to stay focused and undistracted.
+## Demo
+[Video](https://x.com/dmztDhruv/status/1854036536838472065)
 
-## Tools
-
-- **Frontend**: Next.js
-- **Backend**: Node.js, TypeScript, Redis, Websockets, Blockchain
-- **Database**: MongoDB, Sanity
-
-Hey all, I have stopped this project for now because I don't have time to build it.  
-I will build it in my free time.  
-If you are curious how this works, [check out this tweet](https://x.com/dmztDhruv/status/1854036536838472065).
+## Status
+Open source — contributions welcome.
