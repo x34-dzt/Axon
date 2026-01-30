@@ -13,7 +13,7 @@ A lightweight, self-hostable Notion alternative with AI-powered editing.
 Next.js • Express • Bun • MongoDB
 
 ## Demo
-[Video](https://x.com/dmztDhruv/status/1854036536838472065)
+[![Axon Demo](https://img.shields.io/badge/Watch%20Demo-Video-blue?style=for-the-badge&logo=twitter)](https://x.com/dmztDhruv/status/1854036536838472065)
 
 ## Status
 Open source — contributions welcome.
