@@ -1,22 +1,24 @@
 {
-	"name": "axon_proxy",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
-	"type": "module",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"dependencies": {
-		"cors": "^2.8.5",
-		"express": "^4.21.1",
-		"express-rate-limit": "^7.4.1",
-		"helmet": "^8.0.0",
-		"http-proxy": "^1.18.1",
-		"http-proxy-middleware": "^3.0.3",
-		"morgan": "^1.10.0"
-	}
+  "name": "axon_proxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "bun index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "express-rate-limit": "^7.4.1",
+    "helmet": "^8.0.0",
+    "hono": "^4.12.5",
+    "http-proxy": "^1.18.1",
+    "http-proxy-middleware": "^3.0.3",
+    "morgan": "^1.10.0"
+  }
 }
