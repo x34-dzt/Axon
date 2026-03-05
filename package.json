@@ -1,0 +1,14 @@
+{
+	"name": "axon",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"lint": "biome lint .",
+		"format": "biome format --write .",
+		"knip": "knip"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.8.3",
+		"knip": "^5.85.0"
+	}
+}
