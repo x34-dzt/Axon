@@ -44,7 +44,7 @@ export const uploadImageService = async (
 		});
 	} catch (error) {
 		if (error instanceof Error) {
-			throw new Error(`Error in uploadImageService ${uploadImageService}`);
+			throw new Error(`Error in uploadImageService ${error.message}`);
 		}
 		return axonResponse(401, {
 			status: "error",
@@ -78,7 +78,7 @@ export const removeImageService = async (
 		});
 	} catch (error) {
 		if (error instanceof Error) {
-			throw new Error(`Error in remove image service ${uploadImageService}`);
+			throw new Error(`Error in remove image service ${error.message}`);
 		}
 		throw error;
 	}
