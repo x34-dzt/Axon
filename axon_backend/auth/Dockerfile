@@ -1,17 +1,7 @@
-FROM node:20-alpine
-
-RUN npm install -g pnpm
-
+FROM oven/bun:1-alpine
 WORKDIR /app
-
 COPY package*.json ./
-
-RUN pnpm install
-
+RUN bun install
 COPY . .
-
-RUN pnpm run build
-
 EXPOSE 3003
-
-CMD ["pnpm", "start"]
+CMD ["bun", "start"]
