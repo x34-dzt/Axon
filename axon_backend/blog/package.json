@@ -5,8 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "bun run src/server.ts"
   },
   "keywords": [],
   "author": "",
