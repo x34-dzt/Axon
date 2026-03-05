@@ -1,53 +1,53 @@
 services:
-    auth:
-        build: "./axon_backend/auth"
-        ports:
-            - 3003:3003
-        env_file:
-            - "./axon_backend/auth/.env"
-        networks:
-            - axon-network
+  auth:
+    build: "./axon_backend/auth"
+    ports:
+      - 3003:3003
+    env_file:
+      - "./axon_backend/auth/.env"
+    networks:
+      - axon-network
 
-    workspace:
-        build: "./axon_backend/workspace"
-        ports:
-            - 3002:3002
-        env_file:
-            - "./axon_backend/workspace/.env"
-        networks:
-            - axon-network
+  workspace:
+    build: "./axon_backend/workspace"
+    ports:
+      - 3002:3002
+    env_file:
+      - "./axon_backend/workspace/.env"
+    networks:
+      - axon-network
 
-    blog:
-        build: "./axon_backend/blog"
-        ports:
-            - 3008:3008
-        env_file:
-            - "./axon_backend/blog/.env"
-        networks:
-            - axon-network
+  blog:
+    build: "./axon_backend/blog"
+    ports:
+      - 3008:3008
+    env_file:
+      - "./axon_backend/blog/.env"
+    networks:
+      - axon-network
 
-    gateway:
-        build: "./axon_backend/gateway"
-        ports:
-            - 3001:3001
-        networks:
-            - axon-network
-        depends_on:
-            - auth
-            - workspace
-            - blog
+  gateway:
+    build: "./axon_backend/gateway"
+    ports:
+      - 3001:3001
+    networks:
+      - axon-network
+    depends_on:
+      - auth
+      - workspace
+      - blog
 
-    frontend:
-        build: "./axon_client"
-        ports:
-            - 3000:3000
-        env_file:
-            - "./axon_client/.env.local"
-        networks:
-            - axon-network
-        depends_on:
-            - gateway
+  frontend:
+    build: "./axon_client"
+    ports:
+      - 3000:3000
+    env_file:
+      - "./axon_client/.env.local"
+    networks:
+      - axon-network
+    depends_on:
+      - gateway
 
 networks:
-    axon-network:
-        driver: bridge
+  axon-network:
+    driver: bridge
