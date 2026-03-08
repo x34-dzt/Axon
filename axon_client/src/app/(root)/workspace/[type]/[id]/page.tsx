@@ -1,25 +1,23 @@
 import dynamic from "next/dynamic";
 const DynamicSearchWorkspace = dynamic(
-	() => import("@/components/ui/SearchWorkspace"),
+  () => import("@/components/ui/SearchWorkspace"),
 );
 const DynamicAxonWorkspace = dynamic(
-	() => import("@/components/workspace/AxonWorkspace"),
+  () => import("@/components/workspace/AxonWorkspace"),
 );
 
-// getting workspace through params id
-const Page = ({ params }: { params: { id: string; type: string } }) => {
-	return (
-		<div className=" bg-customMain  text-white w w-full">
-			{/* search workspace to find the workspace */}
-			<DynamicSearchWorkspace />
-
-			{/* Displaying Axon workspace */}
-			<DynamicAxonWorkspace
-				workspaceId={params.id}
-				workspaceType={params.type}
-			/>
-		</div>
-	);
+const Page = async ({
+  params,
+}: {
+  params: Promise<{ id: string; type: string }>;
+}) => {
+  const { id, type } = await params;
+  return (
+    <div className=" bg-customMain  text-white w w-full">
+      <DynamicSearchWorkspace />
+      <DynamicAxonWorkspace workspaceId={id} workspaceType={type} />
+    </div>
+  );
 };
 
 export default Page;
