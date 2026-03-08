@@ -9,19 +9,11 @@ export const getParentWorkspacesService = async (
 	try {
 		const workspaces = await workspaceRepo.fetchAllWorkspace(userId);
 
-		if (workspaces?.main?.length === 0 && workspaces?.axonverse?.length === 0) {
-			return axonResponse(200, {
-				status: "error",
-				message: "No workspaces found for this user",
-				data: workspaces,
-			});
-		}
-
 		return {
 			statusCode: 200,
 			response: {
 				status: "success",
-				message: "workspace was successfully fetched",
+				message: "Workspaces fetched successfully",
 				data: workspaces,
 			},
 		};

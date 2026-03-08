@@ -7,8 +7,16 @@ const getWorkspaceContentService = async (
 	workspaceId: string,
 ) => {
 	try {
+		console.log("=== GET WORKSPACE CONTENT SERVICE ===");
+		console.log("userId:", userId);
+		console.log("workspaceId:", workspaceId);
+
 		const { isError, content } =
 			await workspaceRepo.getWorkspaceContentByIdSecure(workspaceId, userId);
+
+		console.log("isError:", isError);
+		console.log("content:", content);
+		console.log("=====================================");
 
 		if (isError.error) {
 			return axonResponse(400, {
