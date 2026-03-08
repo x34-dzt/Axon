@@ -15,10 +15,6 @@ const useWorkspaceUtils = () => {
     workspaces: IUserWorkspace[],
     workspaceId: string,
   ): IUserWorkspace | undefined => {
-    console.log({
-      workspaces,
-      workspaceId,
-    });
     for (const workspace of workspaces) {
       if (workspace._id === workspaceId) {
         return workspace;

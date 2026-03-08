@@ -9,7 +9,7 @@ import {
   EditorCommandList,
   EditorBubble,
 } from "novel";
-import { handleCommandNavigation, ImageResizer } from "novel";
+import { handleCommandNavigation } from "novel";
 import { useDebouncedCallback } from "use-debounce";
 import ReactDom from "react-dom/server";
 import { Separator } from "@/components/ui/separator";
@@ -31,6 +31,16 @@ import useCreateNewParentWorkspace from "@/hooks/workspace/useCreateParentWorksp
 import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "next/navigation";
 import { Editor } from "@tiptap/core";
+import {
+  addDeletedImage,
+  removeDeletedImage,
+  deletedImagesMap,
+  setCurrentWorkspace,
+  getCurrentWorkspace,
+  getDeletedImagesExceptWorkspace,
+  getDeletedImagesForCurrentWorkspace,
+} from "@/lib/deletedImages";
+import useDeleteImagesByUrl from "@/hooks/workspace/useDeleteImagesByUrl";
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -40,6 +50,23 @@ interface EditorProp {
   initialValue?: string;
 }
 
+const extractImageUrls = (content: any): string[] => {
+  const urls: string[] = [];
+  const traverse = (node: any) => {
+    if (node.type === "image" && node.attrs?.src) {
+      urls.push(node.attrs.src);
+    }
+    if (node.content) {
+      node.content.forEach(traverse);
+    }
+  };
+  if (content?.content) {
+    content.content.forEach(traverse);
+  }
+
+  return urls;
+};
+
 const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [openNode, setOpenNode] = useState(false);
@@ -48,6 +75,10 @@ const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
   const [openAxonAiModal, setOpenAxonAiModal] = useState<boolean>(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [editor, setEditor] = useState<Editor | null>(null);
+
+  const previousImageUrls = useRef<string[]>([]);
+  const deleteImagesMutation = useDeleteImagesByUrl();
+
   const {
     removeWorkspace,
     addNewParentWorkspace,
@@ -88,11 +119,46 @@ const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
     setWorkspaceContent();
   }, []);
 
+  useEffect(() => {
+    const previousWs = getCurrentWorkspace();
+    console.log("=== WORKSPACE CHANGE ===");
+    console.log("Previous workspace:", previousWs);
+    console.log("Current workspace:", workspaceId);
+
+    setCurrentWorkspace(workspaceId);
+
+    if (previousWs && previousWs !== workspaceId) {
+      console.log("Workspace changed from:", previousWs, "to:", workspaceId);
+      const imagesToDelete = getDeletedImagesExceptWorkspace(workspaceId);
+      console.log("Images to delete (except current):", imagesToDelete);
+      if (imagesToDelete.length > 0) {
+        console.log("Deleting images for other workspaces...");
+        deleteImagesMutation.mutate(imagesToDelete);
+      }
+    }
+  }, [workspaceId]);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      const imagesToDelete = getDeletedImagesForCurrentWorkspace();
+      if (imagesToDelete.length > 0) {
+        navigator.sendBeacon(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/workspace/image/delete-by-url`,
+          JSON.stringify({ imageUrls: imagesToDelete }),
+        );
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   // function to update the workspace content
   const setWorkspaceContent = async () => {
     if (currentWorkspace.content !== null) {
       setLoading(true);
-      console.log(currentWorkspace.content);
       const response = await fetchWorkspaceContent(workspaceId);
       const content = response?.data?.content ? response.data.content : null;
       updateWorkspaceContent(workspaceId, currentWorkspace.workspace, content);
@@ -142,6 +208,33 @@ const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
           }}
           onUpdate={({ editor }) => {
             setEditor(editor);
+
+            const currentImageUrls = extractImageUrls(editor.getJSON());
+
+            const newlyDeleted = previousImageUrls.current.filter(
+              (url) =>
+                !currentImageUrls.includes(url) && !deletedImagesMap[url],
+            );
+
+            if (newlyDeleted.length > 0) {
+              newlyDeleted.forEach((url) => {
+                addDeletedImage(url, workspaceId);
+              });
+            } else {
+              previousImageUrls.current = currentImageUrls;
+            }
+
+            const restored = Object.keys(deletedImagesMap).filter((url) =>
+              currentImageUrls.includes(url),
+            );
+            restored.forEach((url) => {
+              removeDeletedImage(url);
+            });
+
+            if (restored.length > 0) {
+              previousImageUrls.current = currentImageUrls;
+            }
+
             debouncedUpdates(editor);
             updateSavingContent({
               workspaceId,
