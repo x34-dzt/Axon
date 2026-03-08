@@ -3,16 +3,22 @@ import { checkAuthService } from "../../service/auth/auth.service.js";
 
 export const authController = (req: Request, res: Response) => {
 	try {
-		console.log(req.headers);
 		const axonToken = req.cookies.axon_user;
 		const { error, message, statusCode, user } = checkAuthService(axonToken);
-		const response = {
-			data: user,
-			message,
-			success: error ? "false" : "true",
-		};
 
-		return res.status(statusCode).json(response);
+		if (error) {
+			return res.status(statusCode).json({
+				data: null,
+				message,
+				status: "error",
+			});
+		}
+
+		return res.status(200).json({
+			data: user,
+			message: "User authenticated",
+			status: "success",
+		});
 	} catch (error) {
 		if (error instanceof Error) {
 			console.log(`Error in auth controller ${error.message}`);
