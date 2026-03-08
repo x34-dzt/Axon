@@ -1,26 +1,30 @@
 "use client";
 
-import useLogout from "@/hooks/use-logout";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useAuthStore } from "@/stores/auth";
 
 const Auth = () => {
 	const router = useRouter();
-	const pathName = usePathname();
-	const { logout } = useLogout();
-	const handleLogout = async () => {
-		const authUser = localStorage.getItem("axon_user");
-		if (!authUser) {
-			const res = await logout();
-			if (res) {
+	const pathname = usePathname();
+	const { checkAuth, isAuthenticated, isLoading } = useAuthStore();
+
+	useEffect(() => {
+		checkAuth();
+	}, []);
+
+	useEffect(() => {
+		if (!isLoading) {
+			const isAuthPage = pathname.startsWith("/auth");
+			
+			if (!isAuthenticated && !isAuthPage) {
 				router.push("/auth/sign-in");
+			} else if (isAuthenticated && isAuthPage) {
+				router.push("/");
 			}
 		}
-	};
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-	useEffect(() => {
-		handleLogout();
-	}, [pathName]);
+	}, [pathname, isAuthenticated, isLoading, router]);
+
 	return null;
 };
 

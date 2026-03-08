@@ -56,6 +56,12 @@ const WorkspaceSection = () => {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (data) {
+      console.log("=== WORKSPACE SECTION DEBUG ===");
+      console.log("API Response data:", data);
+      console.log("main workspaces:", data.data?.main);
+      console.log("axonverse workspaces:", data.data?.axonverse);
+      console.log("================================");
+
       workspaceStore.addMainWorkspaces(data.data?.main ?? []);
       workspaceStore.addAxonverseWorkspaces(data.data?.axonverse ?? []);
     }

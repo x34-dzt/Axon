@@ -15,10 +15,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuthStore } from "@/stores/auth";
 import useChangePassword from "@/hooks/use-change-password";
-import { Pencil, X, Check, Loader2 } from "lucide-react";
 import useChangeUsername from "@/hooks/use-change-username";
-import useLogout from "@/hooks/use-logout";
 import { useRouter } from "next/navigation";
+import { Pencil, X, Check, Loader2 } from "lucide-react";
 
 interface UserProfileModalProps {
 	isOpen: boolean;
@@ -32,7 +31,6 @@ export default function UserProfileModal({
 	const auth = useAuthStore();
 	const { changePassword } = useChangePassword();
 	const { changeUsername } = useChangeUsername();
-	const { logout } = useLogout();
 	const router = useRouter();
 
 	const [showPasswordChange, setShowPasswordChange] = useState(false);
@@ -59,11 +57,8 @@ export default function UserProfileModal({
 	}, [currentPassword, newPassword, confirmPassword]);
 
 	const handleLogout = async () => {
-		const loggedOut = await logout();
-		if (loggedOut) {
-			router.push("/auth/sign-in");
-			localStorage.removeItem("axon_user");
-		}
+		await auth.logout();
+		router.push("/auth/sign-in");
 	};
 
 	const validateForm = () => {

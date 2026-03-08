@@ -5,7 +5,6 @@ import { Skeleton } from "../ui/skeleton";
 
 const NavbarHeader = () => {
   const { user } = useAuthStore();
-  console.log({ user });
   return (
     <h2 className="flex gap-[16px] items-center">
       <img
