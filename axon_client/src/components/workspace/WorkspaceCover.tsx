@@ -170,10 +170,6 @@ const WorkspaceCover = ({
     });
   };
 
-  useEffect(() => {
-    console.log(currentWorkspace.icon);
-  }, [currentWorkspace]);
-
   return (
     <div
       className={`${currentWorkspace.cover ? "h-[290px]" : "h-[200px]"} group transition-all relative w-full `}

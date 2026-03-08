@@ -39,13 +39,6 @@ const AxonWorkspace = ({
   const workspaceStore = useWorkspaceStore();
   const currentWorkspace = findWorkspace(workspaceId, workspaceType);
 
-  console.log("=== AXON WORKSPACE DEBUG ===");
-  console.log("workspaceId:", workspaceId);
-  console.log("workspaceType:", workspaceType);
-  console.log("currentWorkspace:", currentWorkspace);
-  console.log("workspace store:", workspaceStore.workspace);
-  console.log("===========================");
-
   // states
   const [folders, setFolders] = useState<IRoutes[]>([]);
 
