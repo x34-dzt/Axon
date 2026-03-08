@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import {
+	deleteImagesByUrlService,
 	removeImageService,
 	uploadImageService,
 } from "../../service/workspace/uploadImage.service.js";
@@ -72,6 +73,35 @@ export const removeImageController = async (req: Request, res: Response) => {
 		}
 
 		console.log(`Error in remove image controller ${error}`);
+		return res.status(500).json({ error: "Internal server error." });
+	}
+};
+
+type DeleteImagesBody = {
+	imageUrls: string[];
+};
+
+export const deleteImagesByUrlController = async (
+	req: Request,
+	res: Response,
+) => {
+	try {
+		const { imageUrls }: DeleteImagesBody = req.body;
+
+		if (!imageUrls || !Array.isArray(imageUrls)) {
+			return res.status(400).json({ error: "imageUrls array is required" });
+		}
+
+		const { statusCode, response } = await deleteImagesByUrlService(imageUrls);
+
+		return res.status(statusCode).json(response);
+	} catch (error) {
+		if (error instanceof Error) {
+			console.log(`Error in deleteImagesByUrlController ${error.message}`);
+			return res.status(500).json({ error: "Internal server error." });
+		}
+
+		console.log(`Error in deleteImagesByUrlController ${error}`);
 		return res.status(500).json({ error: "Internal server error." });
 	}
 };
