@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { authController } from "../../controllers/auth/auth.controller.js";
 import {
 	changePasswordController,
 	changeUsernameController,
@@ -7,7 +8,6 @@ import {
 	userSingUpController,
 } from "../../controllers/user/user.controller.js";
 import authenticateJsonWebToken from "../../middleware/auth.middleware.js";
-import { authController } from "../../controllers/auth/auth.controller.js";
 
 const authRouter = Router();
 
@@ -27,6 +27,6 @@ authRouter.post(
 );
 
 // auth route
-authRouter.post("/check-auth", authController);
+authRouter.get("/me", authController);
 
 export default authRouter;

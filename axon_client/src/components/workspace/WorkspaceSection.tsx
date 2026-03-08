@@ -81,25 +81,32 @@ const WorkspaceSection = () => {
   return (
     <>
       <div className="text-[11px] flex items-center justify-between gap-1 group ">
-        <span className="text-neutral-500">main</span>
+        <span className="text-neutral-500">Main</span>
         {!isLoading && (
           <button
             type="button"
             onClick={() => handleAddWorkspace("main")}
-            className="opacity-0 group-hover:opacity-100 scale-[1.5]"
+            className="opacity-0 group-hover:opacity-100"
           >
             <IoIosAdd className="opacity-60 hover:opacity-100 active:scale-[0.9]" />
           </button>
         )}
       </div>
       {isLoading ? (
-        <Skeleton className="bg-neutral-800 w-full h-[23px]" />
+        <Skeleton className="bg-neutral-800 w-full h-[24px]" />
       ) : (
-        workspaceStore.workspace?.main?.map((workspaceLink) => {
-          return (
-            <Workspace workspaceLink={workspaceLink} key={workspaceLink._id} />
-          );
-        })
+        workspaceStore.workspace?.main?.length != 0 && (
+          <div className="flex flex-col gap-1 pt-2 pb-3">
+            {workspaceStore.workspace?.main?.map((workspaceLink) => {
+              return (
+                <Workspace
+                  workspaceLink={workspaceLink}
+                  key={workspaceLink._id}
+                />
+              );
+            })}
+          </div>
+        )
       )}
       {isLoading ? (
         <Skeleton className="bg-neutral-800 w-full h-[23px]" />
@@ -108,15 +115,15 @@ const WorkspaceSection = () => {
           <button
             type="button"
             onClick={() => handleAddWorkspace("main")}
-            className="opacity-100 text-[13px] justify-between p-1 bg-neutral-900 hover:bg-neutral-800 transition-all rounded-md px-2 flex gap-1 items-center"
+            className="opacity-100 text-sm justify-between p-1 bg-neutral-900 hover:bg-neutral-800 transition-all rounded-md px-2 flex gap-1 items-center mt-2 mb-3"
           >
             Create main workspace
-            <IoIosAdd className="opacity-60 hover:opacity-100 active:scale-[0.9]" />
+            <IoIosAdd className="opacity-60 hover:opacity-100 active:scale-[0.9] w-6 h-6" />
           </button>
         )
       )}
       <div className="text-[10px] flex items-center justify-between gap-1 group ">
-        <span className="text-neutral-500">axonverse</span>
+        <span className="text-neutral-500">Others</span>
         {!isLoading && (
           <button
             type="button"
@@ -132,11 +139,18 @@ const WorkspaceSection = () => {
       {isLoading ? (
         <Skeleton className="bg-neutral-800 w-full h-[23px]" />
       ) : (
-        workspaceStore.workspace?.axonverse?.map((workspaceLink) => {
-          return (
-            <Workspace workspaceLink={workspaceLink} key={workspaceLink._id} />
-          );
-        })
+        workspaceStore.workspace.axonverse?.length !== 0 && (
+          <div className="flex flex-col gap-1 pt-2 pb-3">
+            {workspaceStore.workspace?.axonverse?.map((workspaceLink) => {
+              return (
+                <Workspace
+                  workspaceLink={workspaceLink}
+                  key={workspaceLink._id}
+                />
+              );
+            })}
+          </div>
+        )
       )}
       {isLoading ? (
         <Skeleton className="bg-neutral-800 w-full h-[23px]" />
@@ -147,10 +161,10 @@ const WorkspaceSection = () => {
             onClick={() => {
               handleAddWorkspace("axonverse");
             }}
-            className="opacity-100 text-nowrap text-[13px] justify-between p-1 bg-neutral-900 hover:bg-neutral-800 transition-all rounded-md px-2 flex gap-1 items-center"
+            className="opacity-100 mt-2 text-nowrap text-sm justify-between p-1 bg-neutral-900 hover:bg-neutral-800 transition-all rounded-md px-2 flex gap-1 items-center"
           >
             Create workspace
-            <IoIosAdd className="opacity-60 hover:opacity-100 active:scale-[0.9]" />
+            <IoIosAdd className="opacity-60 hover:opacity-100 active:scale-[0.9] w-6 h-6" />
           </button>
         )
       )}

@@ -41,8 +41,9 @@ export type TAuthUser = {
 
 export type TResponse = {
 	message: string;
-	success: boolean;
-	data: TAuthUser;
+	success?: boolean;
+	status?: "success" | "error";
+	data: TAuthUser | null;
 };
 
 export type TNavigationWorkspaceContent = {

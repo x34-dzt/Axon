@@ -83,3 +83,21 @@ export const removeImageService = async (
 		throw error;
 	}
 };
+
+export const deleteImagesByUrlService = async (
+	imageUrls: string[],
+): Promise<TAxonResponse> => {
+	try {
+		await sanityRepo.deleteImageByUrl(imageUrls);
+		return axonResponse(201, {
+			status: "success",
+			message: "Images deleted successfully.",
+			data: null,
+		});
+	} catch (error) {
+		if (error instanceof Error) {
+			throw new Error(`Error in deleteImagesByUrlService ${error.message}`);
+		}
+		throw error;
+	}
+};
