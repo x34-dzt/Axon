@@ -1,7 +1,5 @@
-import { drizzle } from "drizzle-orm/node-postgres";
+export { baseColumns } from "./base-columns";
+export { createId, type } from "./id";
+export { createDb } from "./factory";
 
-export function createDb(connectionString: string) {
-  return drizzle(connectionString);
-}
-
-export type Db = ReturnType<typeof createDb>;
+export type { Db } from "./factory.ts";

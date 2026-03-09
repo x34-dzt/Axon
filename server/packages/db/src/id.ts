@@ -2,6 +2,7 @@ import { ulid } from "ulid";
 
 export const type = {
   user: "usr",
+  profile: "usrp",
   workspace_member: "wmem",
   workspace: "wksp",
 } as const;

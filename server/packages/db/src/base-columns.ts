@@ -1,6 +1,7 @@
 import { timestamp, varchar } from "drizzle-orm/pg-core";
-import { createId } from "./id";
+
 import type { type as idType } from "./id";
+import { createId } from "./id";
 
 export const baseColumns = (type: keyof typeof idType) => ({
   id: varchar({ length: 34 })
