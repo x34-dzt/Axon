@@ -1,0 +1,25 @@
+{
+  "name": "db",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/pg": "^8.18.0",
+    "drizzle-kit": "^0.31.9",
+    "tsx": "^4.21.0"
+  },
+  "peerDependencies": {
+    "eslint": "^10.0.3",
+    "typescript": "^5",
+    "@axon/eslint-config": "workspace:*",
+    "@axon/prettier-config": "workspace:*",
+    "@axon/tsconfig": "workspace:*"
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "drizzle-orm": "^0.45.1",
+    "pg": "^8.20.0",
+    "ulid": "^3.0.2"
+  }
+}
