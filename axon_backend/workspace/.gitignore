@@ -1,7 +1,0 @@
-dist
-node_modules
-.env
-client.rest
-todoList.md
-.vscode
-nodemon.json

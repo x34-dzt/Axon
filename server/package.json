@@ -1,0 +1,37 @@
+{
+  "name": "axon",
+  "version": "0.5.1",
+  "description": "A monorepo template built with Bun, Hono, Vite, and React",
+  "author": "x34-dzt",
+  "license": "MIT",
+  "homepage": "https://github.com/x34-dzt/axon",
+  "packageManager": "bun@1.2.4",
+  "workspaces": [
+    "apps/*",
+    "tooling/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:gateway": "turbo dev --filter=@axon/gateway",
+    "build": "turbo build",
+    "build:gateway": "turbo build --filter=@axon/gateway",
+    "lint": "turbo lint",
+    "type-check": "turbo type-check",
+    "test": "turbo test"
+  },
+  "keywords": [
+    "bun",
+    "hono",
+    "react",
+    "vite",
+    "monorepo",
+    "turbo"
+  ],
+  "devDependencies": {
+    "bun-types": "latest",
+    "turbo": "^2.6.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
