@@ -1,10 +1,10 @@
 {
-  "name": "axon",
+  "name": "tsukuyomi",
   "version": "0.5.1",
   "description": "A monorepo template built with Bun, Hono, Vite, and React",
   "author": "x34-dzt",
   "license": "MIT",
-  "homepage": "https://github.com/x34-dzt/axon",
+  "homepage": "https://github.com/x34-dzt/tsukuyomi",
   "packageManager": "bun@1.2.4",
   "workspaces": [
     "apps/*",
@@ -13,9 +13,9 @@
   ],
   "scripts": {
     "dev": "turbo dev",
-    "dev:gateway": "turbo dev --filter=@axon/gateway",
+    "dev:gateway": "turbo dev --filter=@tsukuyomi/gateway",
     "build": "turbo build",
-    "build:gateway": "turbo build --filter=@axon/gateway",
+    "build:gateway": "turbo build --filter=@tsukuyomi/gateway",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "test": "turbo test"

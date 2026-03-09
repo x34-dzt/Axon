@@ -1,5 +1,5 @@
 {
-  "extends": "@axon/tsconfig/base.json",
+  "extends": "@tsukuyomi/tsconfig/base.json",
   "compilerOptions": {
     // Environment settings
     "lib": ["ESNext"],

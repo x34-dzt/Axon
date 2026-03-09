@@ -1,5 +1,5 @@
 {
-  "name": "@axon/prettier-config",
+  "name": "@tsukuyomi/prettier-config",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -16,7 +16,7 @@
     "prettier": "^3.5.3"
   },
   "devDependencies": {
-    "@axon/tsconfig": "workspace:*"
+    "@tsukuyomi/tsconfig": "workspace:*"
   },
-  "prettier": "@axon/prettier-config"
+  "prettier": "@tsukuyomi/prettier-config"
 }

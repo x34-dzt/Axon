@@ -1,5 +1,5 @@
 {
-  "name": "@axon/user",
+  "name": "@tsukuyomi/user",
   "version": "0.0.1",
   "scripts": {
     "build": "tsc",
@@ -7,13 +7,20 @@
     "lint": "eslint src/"
   },
   "dependencies": {
-    "hono": "^4.10.8"
+    "drizzle-orm": "^0.45.1",
+    "drizzle-typebox": "^0.3.3",
+    "hono": "^4.10.8",
+    "pg": "^8.20.0"
   },
   "devDependencies": {
-    "@axon/eslint-config": "workspace:*",
-    "@axon/prettier-config": "workspace:*",
-    "@axon/tsconfig": "workspace:*",
+    "@tsukuyomi/db": "workspace:*",
+    "@tsukuyomi/eslint-config": "workspace:*",
+    "@tsukuyomi/prettier-config": "workspace:*",
+    "@tsukuyomi/tsconfig": "workspace:*",
     "@types/bun": "latest",
-    "eslint": "^10.0.3"
+    "@types/pg": "^8.18.0",
+    "eslint": "^10.0.3",
+    "drizzle-kit": "^0.31.9",
+    "tsx": "^4.21.0"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@axon/gateway",
+  "name": "@tsukuyomi/gateway",
   "version": "0.0.1",
   "scripts": {
     "build": "tsc",
@@ -10,9 +10,9 @@
     "hono": "^4.10.8"
   },
   "devDependencies": {
-    "@axon/eslint-config": "workspace:*",
-    "@axon/prettier-config": "workspace:*",
-    "@axon/tsconfig": "workspace:*",
+    "@tsukuyomi/eslint-config": "workspace:*",
+    "@tsukuyomi/prettier-config": "workspace:*",
+    "@tsukuyomi/tsconfig": "workspace:*",
     "@types/bun": "latest",
     "eslint": "^10.0.3"
   }

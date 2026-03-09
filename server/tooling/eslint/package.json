@@ -1,5 +1,5 @@
 {
-  "name": "@axon/eslint-config",
+  "name": "@tsukuyomi/eslint-config",
   "private": true,
   "version": "0.3.0",
   "type": "module",
@@ -23,8 +23,8 @@
     "typescript-eslint": "^8.49.0"
   },
   "devDependencies": {
-    "@axon/prettier-config": "workspace:*",
-    "@axon/tsconfig": "workspace:*"
+    "@tsukuyomi/prettier-config": "workspace:*",
+    "@tsukuyomi/tsconfig": "workspace:*"
   },
-  "prettier": "@axon/prettier-config"
+  "prettier": "@tsukuyomi/prettier-config"
 }

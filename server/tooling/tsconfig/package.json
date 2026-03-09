@@ -1,5 +1,5 @@
 {
-  "name": "@axon/tsconfig",
+  "name": "@tsukuyomi/tsconfig",
   "private": true,
   "version": "0.1.0",
   "files": [
