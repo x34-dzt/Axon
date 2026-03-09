@@ -12,10 +12,13 @@ app.get("/", (c) => {
 app.get("/health", (c) => {
   return c.json(
     {
-      message: "healthy",
+      message: "gateway is healthy",
     },
     { status: 200 },
   );
 });
 
-export default app;
+export default {
+  port: 3001,
+  fetch: app.fetch,
+};
