@@ -1,0 +1,19 @@
+{
+  "name": "@axon/workspace",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "tsc",
+    "dev": "bun --watch run src/index.ts",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "hono": "^4.10.8"
+  },
+  "devDependencies": {
+    "@axon/eslint-config": "workspace:*",
+    "@axon/prettier-config": "workspace:*",
+    "@axon/tsconfig": "workspace:*",
+    "@types/bun": "latest",
+    "eslint": "^10.0.3"
+  }
+}
