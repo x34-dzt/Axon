@@ -4,12 +4,23 @@
   "type": "module",
   "private": true,
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./user": "./src/user/user.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "db:push": "drizzle-kit push",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/pg": "^8.18.0",
     "drizzle-kit": "^0.31.9",
+    "drizzle-typebox": "^0.3.3",
     "tsx": "^4.21.0"
   },
   "peerDependencies": {

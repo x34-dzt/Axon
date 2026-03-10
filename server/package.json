@@ -3,7 +3,6 @@
   "version": "0.5.1",
   "description": "A monorepo template built with Bun, Hono, Vite, and React",
   "author": "x34-dzt",
-  "license": "MIT",
   "homepage": "https://github.com/x34-dzt/tsukuyomi",
   "packageManager": "bun@1.2.4",
   "workspaces": [
