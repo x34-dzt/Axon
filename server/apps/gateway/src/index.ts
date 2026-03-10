@@ -1,24 +1,21 @@
-import { Hono } from "hono";
-import { cors } from "hono/cors";
+import Elysia from "elysia";
+import { authRoutes } from "./services/user/routes";
+import swagger from "@elysiajs/swagger";
 
-const app = new Hono();
+const elysia = new Elysia()
+  .use(
+    swagger({
+      path: "/docs",
+    }),
+  )
+  .onError(({ error, set }) => {
+    set.headers["Content-Type"] = "application/json";
+    return { message: (error as Error).message };
+  })
+  .use(authRoutes);
 
-app.use(cors());
+elysia.get("/health", { message: "healthy" });
 
-app.get("/", (c) => {
-  return c.text("Hello Hono!");
+elysia.listen(3001, () => {
+  console.log("server started");
 });
-
-app.get("/health", (c) => {
-  return c.json(
-    {
-      message: "gateway is healthy",
-    },
-    { status: 200 },
-  );
-});
-
-export default {
-  port: 3001,
-  fetch: app.fetch,
-};
