@@ -1,19 +1,19 @@
-export { userTable } from "./user.sql";
-import { createSelectSchema, createInsertSchema } from "drizzle-typebox";
+import { createSelectSchema } from "drizzle-typebox";
 import { userTable } from "./user.sql";
 import { db } from "@tsukuyomi/db";
-import { eq, InferInsertModel, InferSelectModel } from "drizzle-orm";
-
-export const userSelectScheam = createSelectSchema(userTable);
-export const userInsertScheam = createInsertSchema(userTable);
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 export type UserModel = InferSelectModel<typeof userTable>;
 export type UserCreate = InferInsertModel<typeof userTable>;
 export type UserUpdate = Partial<Omit<UserModel, "id">>;
 
 export class User {
-  public static async createUser(payload: UserCreate): Promise<UserModel> {
-    return (await db.insert(userTable).values(payload).returning())[0]!;
+  static readonly schema = createSelectSchema(userTable);
+  public static async createUser(
+    payload: UserCreate,
+  ): Promise<UserModel | null> {
+    return (await db.insert(userTable).values(payload).returning())[0] ?? null;
   }
 
   public static async updateUser(
@@ -43,6 +43,16 @@ export class User {
   public static async find(id: UserModel["id"]): Promise<UserModel | null> {
     return (
       (await db.select().from(userTable).where(eq(userTable.id, id)))[0] ?? null
+    );
+  }
+
+  public static async findByMail(
+    email: UserModel["email"],
+  ): Promise<UserModel | null> {
+    return (
+      (
+        await db.select().from(userTable).where(eq(userTable.email, email))
+      )[0] ?? null
     );
   }
 

@@ -1,17 +1,15 @@
-import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
+import { createSelectSchema } from "drizzle-typebox";
 import { workspaceTable } from "./workspace.sql";
 import { eq, InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { db } from "@tsukuyomi/db";
-
-export const workspaceSelectScheam = createSelectSchema(workspaceTable);
-export const workspaceInsertScheam = createInsertSchema(workspaceTable);
 
 export type WorkspaceModel = InferSelectModel<typeof workspaceTable>;
 export type WorkspaceCreate = InferInsertModel<typeof workspaceTable>;
 export type WorkspaceUpdate = Partial<Omit<WorkspaceModel, "id" | "ownerId">>;
 
 export class Workspace {
-  async createWorkspace(
+  static readonly schema = createSelectSchema(workspaceTable);
+  public static async createWorkspace(
     payload: WorkspaceCreate,
   ): Promise<WorkspaceModel | null> {
     return (
@@ -19,7 +17,7 @@ export class Workspace {
     );
   }
 
-  async updateWorkspace(
+  public static async updateWorkspace(
     id: WorkspaceModel["id"],
     payload: WorkspaceUpdate,
   ): Promise<WorkspaceModel | null> {
@@ -34,7 +32,7 @@ export class Workspace {
     );
   }
 
-  async deleteWorkspace(
+  public static async deleteWorkspace(
     id: WorkspaceModel["id"],
   ): Promise<WorkspaceModel | null> {
     return (
@@ -47,7 +45,9 @@ export class Workspace {
     );
   }
 
-  async find(id: WorkspaceModel["id"]): Promise<WorkspaceModel | null> {
+  public static async find(
+    id: WorkspaceModel["id"],
+  ): Promise<WorkspaceModel | null> {
     return (
       (
         await db.select().from(workspaceTable).where(eq(workspaceTable.id, id))
@@ -55,7 +55,7 @@ export class Workspace {
     );
   }
 
-  async findAll(): Promise<WorkspaceModel[]> {
+  public static async findAll(): Promise<WorkspaceModel[]> {
     return await db.select().from(workspaceTable);
   }
 }

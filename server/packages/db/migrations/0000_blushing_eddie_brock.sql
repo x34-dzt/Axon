@@ -9,11 +9,12 @@ CREATE TABLE "user"."profile" (
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"deleted_at" timestamp with time zone,
 	"username" varchar(50) NOT NULL,
-	"profile_picture" text,
+	"avatar_url" text,
+	"banner_url" text,
 	"user_id" varchar(34) NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "user"."user" (
+CREATE TABLE "user"."users" (
 	"id" varchar(34) PRIMARY KEY NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
@@ -42,10 +43,10 @@ CREATE TABLE "workspace"."workspace" (
 	"owner_id" varchar(34) NOT NULL
 );
 --> statement-breakpoint
-ALTER TABLE "user"."profile" ADD CONSTRAINT "profile_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "user"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "user"."profile" ADD CONSTRAINT "profile_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "user"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "workspace"."workspace_members" ADD CONSTRAINT "workspace_members_workspace_id_workspace_id_fk" FOREIGN KEY ("workspace_id") REFERENCES "workspace"."workspace"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "workspace"."workspace_members" ADD CONSTRAINT "workspace_members_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "user"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "workspace"."workspace" ADD CONSTRAINT "workspace_owner_id_user_id_fk" FOREIGN KEY ("owner_id") REFERENCES "user"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "workspace"."workspace_members" ADD CONSTRAINT "workspace_members_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "user"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "workspace"."workspace" ADD CONSTRAINT "workspace_owner_id_users_id_fk" FOREIGN KEY ("owner_id") REFERENCES "user"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 CREATE UNIQUE INDEX "profile_user_id_index" ON "user"."profile" USING btree ("user_id");--> statement-breakpoint
-CREATE UNIQUE INDEX "user_email_index" ON "user"."user" USING btree ("email");--> statement-breakpoint
+CREATE UNIQUE INDEX "users_email_index" ON "user"."users" USING btree ("email");--> statement-breakpoint
 CREATE UNIQUE INDEX "workspace_members_workspace_id_user_id_index" ON "workspace"."workspace_members" USING btree ("workspace_id","user_id");

@@ -1,12 +1,7 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
 import { workspaceMemberTable } from "./workspace.sql";
-import { eq, InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { eq, and, InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { db } from "@tsukuyomi/db";
-
-export const workspaceMemberSelectScheam =
-  createSelectSchema(workspaceMemberTable);
-export const workspaceMemberInsertScheam =
-  createInsertSchema(workspaceMemberTable);
 
 export type WorkspaceMemberModel = InferSelectModel<
   typeof workspaceMemberTable
@@ -17,6 +12,23 @@ export type WorkspaceMemberCreate = InferInsertModel<
 export type WorkspaceMemberUpdate = Partial<Omit<WorkspaceMemberModel, "id">>;
 
 export class WorkspaceMember {
+  static readonly schema = createSelectSchema(workspaceMemberTable);
+
+  static async isMember(
+    workspaceId: WorkspaceMemberModel["workspaceId"],
+    userId: WorkspaceMemberModel["userId"],
+  ): Promise<boolean> {
+    const result = await db
+      .select()
+      .from(workspaceMemberTable)
+      .where(
+        and(
+          eq(workspaceMemberTable.workspaceId, workspaceId),
+          eq(workspaceMemberTable.userId, userId),
+        ),
+      );
+    return result.length > 0;
+  }
   async createWorkspaceMember(
     payload: WorkspaceMemberCreate,
   ): Promise<WorkspaceMemberModel | null> {

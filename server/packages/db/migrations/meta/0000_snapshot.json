@@ -1,5 +1,5 @@
 {
-  "id": "746344b3-3ac7-4844-9d3d-735c6685e571",
+  "id": "20f45f92-5452-4603-8672-ec7917f2c752",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -40,8 +40,14 @@
           "primaryKey": false,
           "notNull": true
         },
-        "profile_picture": {
-          "name": "profile_picture",
+        "avatar_url": {
+          "name": "avatar_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "banner_url": {
+          "name": "banner_url",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -71,10 +77,10 @@
         }
       },
       "foreignKeys": {
-        "profile_user_id_user_id_fk": {
-          "name": "profile_user_id_user_id_fk",
+        "profile_user_id_users_id_fk": {
+          "name": "profile_user_id_users_id_fk",
           "tableFrom": "profile",
-          "tableTo": "user",
+          "tableTo": "users",
           "schemaTo": "user",
           "columnsFrom": [
             "user_id"
@@ -92,8 +98,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "user.user": {
-      "name": "user",
+    "user.users": {
+      "name": "users",
       "schema": "user",
       "columns": {
         "id": {
@@ -136,8 +142,8 @@
         }
       },
       "indexes": {
-        "user_email_index": {
-          "name": "user_email_index",
+        "users_email_index": {
+          "name": "users_email_index",
           "columns": [
             {
               "expression": "email",
@@ -248,10 +254,10 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "workspace_members_user_id_user_id_fk": {
-          "name": "workspace_members_user_id_user_id_fk",
+        "workspace_members_user_id_users_id_fk": {
+          "name": "workspace_members_user_id_users_id_fk",
           "tableFrom": "workspace_members",
-          "tableTo": "user",
+          "tableTo": "users",
           "schemaTo": "user",
           "columnsFrom": [
             "user_id"
@@ -320,10 +326,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "workspace_owner_id_user_id_fk": {
-          "name": "workspace_owner_id_user_id_fk",
+        "workspace_owner_id_users_id_fk": {
+          "name": "workspace_owner_id_users_id_fk",
           "tableFrom": "workspace",
-          "tableTo": "user",
+          "tableTo": "users",
           "schemaTo": "user",
           "columnsFrom": [
             "owner_id"

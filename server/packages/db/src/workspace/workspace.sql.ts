@@ -4,20 +4,21 @@ import { userTable } from "../user/user.sql";
 
 export const workspaceSchema = pgSchema("workspace");
 
-export enum WorkspaceMemberRole {
+export enum WorkspaceMemberRoleEnum {
   owner = "owner",
   member = "member",
   guest = "guest",
 }
 
 const workspaceMemberRoleEnum = workspaceSchema.enum("workspace_member_role", [
-  WorkspaceMemberRole.owner,
-  WorkspaceMemberRole.member,
-  WorkspaceMemberRole.guest,
+  WorkspaceMemberRoleEnum.owner,
+  WorkspaceMemberRoleEnum.member,
+  WorkspaceMemberRoleEnum.guest,
 ]);
 
 const workspaceTable = workspaceSchema.table("workspace", (pg) => ({
   ...baseColumns("workspace"),
+  image: pg.text(),
   name: pg.varchar().notNull(),
   description: pg.varchar(),
   ownerId: pg
@@ -40,7 +41,7 @@ const workspaceMemberTable = workspaceSchema.table(
       .notNull(),
     role: workspaceMemberRoleEnum()
       .notNull()
-      .default(WorkspaceMemberRole.owner),
+      .default(WorkspaceMemberRoleEnum.owner),
   }),
   (t) => [uniqueIndex().on(t.workspaceId, t.userId)],
 );

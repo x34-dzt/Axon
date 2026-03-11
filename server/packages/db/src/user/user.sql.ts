@@ -4,7 +4,7 @@ import { baseColumns } from "../base-columns";
 export const userSchema = pgSchema("user");
 
 const userTable = userSchema.table(
-  "user",
+  "users",
   (pg) => ({
     ...baseColumns("user"),
     email: pg.varchar({ length: 50 }).notNull(),
