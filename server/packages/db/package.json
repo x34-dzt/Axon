@@ -5,7 +5,8 @@
   "private": true,
   "exports": {
     ".": "./src/index.ts",
-    "./user": "./src/user/user.ts"
+    "./user": "./src/user/index.ts",
+    "./workspace": "./src/workspace/index.ts"
   },
   "scripts": {
     "build": "tsc",

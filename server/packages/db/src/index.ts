@@ -10,4 +10,5 @@ const pool = new Pool({
 });
 
 const db = drizzle(pool, { casing: "snake_case" });
+export * from "drizzle-orm";
 export { db };
