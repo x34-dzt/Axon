@@ -1,4 +1,5 @@
-import { t } from "elysia";
+import type { Static } from "elysia";
+import { status, t } from "elysia";
 
 export enum HttpStatus {
   // Informational Responses
@@ -84,3 +85,11 @@ export const conflictErrorResponseSchema = t.Object({
   message: t.String(),
   code: t.String(),
 });
+
+export type BaseErrorResponseScheam = Static<typeof baseErrorResponseSchema>;
+
+export function errorResponse(statusCode: HttpStatus, message: string) {
+  return status(statusCode, {
+    message: message,
+  });
+}
