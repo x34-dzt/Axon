@@ -1,0 +1,14 @@
+[test]
+# Preload files before running tests
+preload = ["./tests/setup.ts"]
+
+# Code coverage
+coverage = true
+coverageDir = "coverage"
+coverageThreshold = 80
+
+# Timeouts (in milliseconds)
+timeout = 5000
+
+# Bail after first failure
+bail = false

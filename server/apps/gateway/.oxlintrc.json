@@ -1,0 +1,3 @@
+{
+  "extends": ["./node_modules/@tsukuyomi/oxlint/.oxlintrc.json"]
+}
