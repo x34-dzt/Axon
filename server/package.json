@@ -29,7 +29,8 @@
   ],
   "devDependencies": {
     "bun-types": "latest",
-    "turbo": "^2.6.3"
+    "turbo": "^2.6.3",
+    "@types/node": "^20.11.0"
   },
   "peerDependencies": {
     "typescript": "^5.8.3"

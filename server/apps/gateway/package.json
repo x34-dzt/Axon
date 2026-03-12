@@ -4,7 +4,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "bun --watch run src/index.ts",
-    "lint": "eslint src/"
+    "lint": "oxlint ./src && eslint ./src",
+    "lint:fix": "oxlint --fix ./src && eslint --fix ./src"
   },
   "dependencies": {
     "@elysiajs/bearer": "^1.4.3",
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "@tsukuyomi/eslint-config": "workspace:*",
+    "@tsukuyomi/oxlint": "workspace:*",
     "@tsukuyomi/prettier-config": "workspace:*",
     "@tsukuyomi/tsconfig": "workspace:*",
     "@types/bun": "latest",
