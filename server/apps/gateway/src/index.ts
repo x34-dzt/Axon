@@ -4,6 +4,7 @@ import { profileRoutes } from "./services/profile/routes";
 import { workspaceRoutes } from "./services/workspace/routes";
 import { workspaceMemberRoutes } from "./services/workspace/members/routes";
 import swagger from "@elysiajs/swagger";
+import { errorHandler } from "./error-handler";
 
 const elysia = new Elysia()
   .use(
@@ -14,10 +15,7 @@ const elysia = new Elysia()
       },
     }),
   )
-  .onError(({ error, set }) => {
-    set.headers["Content-Type"] = "application/json";
-    return { message: (error as Error).message };
-  })
+  .onError(errorHandler)
   .use(authRoutes)
   .use(profileRoutes)
   .use(workspaceRoutes)
