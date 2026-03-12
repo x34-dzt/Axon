@@ -1,13 +1,9 @@
 /// <reference types="./types.d.ts" />
-
 import eslint from "@eslint/js";
 import eslintConfigPrettier from "eslint-config-prettier";
 import importPlugin from "eslint-plugin-import";
-import eslintPluginUnicorn from "eslint-plugin-unicorn";
-import unusedImports from "eslint-plugin-unused-imports";
 import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
-
 /**
  * All packages that leverage t3-env should use this rule
  */
@@ -16,7 +12,6 @@ export const restrictEnvAccess = defineConfig([
   eslintConfigPrettier,
   {
     files: ["**/*.js", "**/*.ts", "**/*.tsx"],
-
     rules: {
       "no-restricted-properties": [
         "error",
@@ -39,15 +34,12 @@ export const restrictEnvAccess = defineConfig([
     },
   },
 ]);
-
 export default defineConfig([
   { ignores: ["**/*.config.*", "**/sst-env.d.ts"] },
   {
     files: ["**/*.js", "**/*.ts", "**/*.tsx"],
     plugins: {
       import: importPlugin,
-      "unused-imports": unusedImports,
-      unicorn: eslintPluginUnicorn,
     },
     extends: [
       eslint.configs.recommended,
@@ -56,41 +48,19 @@ export default defineConfig([
       ...tseslint.configs.stylisticTypeChecked,
     ],
     rules: {
+      // Disabled — oxlint owns these
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/no-namespace": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/consistent-type-imports": "off",
 
-      "unused-imports/no-unused-imports": "error",
-      "unused-imports/no-unused-vars": [
-        "error",
-        {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-          caughtErrorsIgnorePattern: "^_",
-        },
-      ],
-
-      "unicorn/filename-case": [
-        "error",
-        {
-          case: "kebabCase",
-        },
-      ],
-
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
-      ],
-      "@typescript-eslint/consistent-type-imports": [
-        "warn",
-        { prefer: "type-imports", fixStyle: "separate-type-imports" },
-      ],
-      "@typescript-eslint/no-misused-promises": ["off"],
+      // Type-aware rules — stay in ESLint
+      "@typescript-eslint/no-misused-promises": "off",
       "@typescript-eslint/no-unnecessary-condition": [
         "error",
-        {
-          allowConstantLoopConditions: true,
-        },
+        { allowConstantLoopConditions: true },
       ],
-      "@typescript-eslint/no-non-null-assertion": "error",
       "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
     },
   },
