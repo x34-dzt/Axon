@@ -4,7 +4,7 @@ import { Profile } from "@tsukuyomi/db/user";
 import { Workspace, WorkspaceMember } from "@tsukuyomi/db/workspace";
 
 export const registerProfileSchema = t.Object({
-  username: t.String(),
+  username: t.String({ maxLength: 20, minLength: 3 }),
   profileUrl: t.Nullable(t.String()),
   bannerUrl: t.Nullable(t.String()),
 });

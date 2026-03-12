@@ -1,10 +1,11 @@
 import type { Context } from "elysia";
+import { NotFoundError } from "elysia";
 import type * as schema from "./schema";
 import type { UserModel } from "@tsukuyomi/db/user";
 import { User } from "@tsukuyomi/db/user";
 import { JWT } from "~/lib/jwt";
 import { COOKIE_MAX_AGE, isDev } from "~/lib/constants";
-import { HttpStatus, errorResponse } from "~/lib/http";
+import { ConflictError, ForbiddenError } from "../../lib/error";
 
 class UserService {
   public static async register(
@@ -21,18 +22,12 @@ class UserService {
       });
     } catch (error: unknown) {
       console.log("error", error);
-      return errorResponse(
-        HttpStatus.HTTP_409_CONFLICT,
-        "User already with this details exists.",
-      );
+      throw new ConflictError("User already with this details exists.");
     }
 
     if (!user) {
       console.log("failed to insert user profile", user);
-      return errorResponse(
-        HttpStatus.HTTP_409_CONFLICT,
-        "User already with this details exists.",
-      );
+      throw new ConflictError("User already with this details exists.");
     }
 
     if (isDev) {
@@ -70,12 +65,12 @@ class UserService {
   ) {
     const user = await User.findByMail(email);
     if (!user) {
-      return errorResponse(HttpStatus.HTTP_404_NOT_FOUND, "User not found");
+      throw new NotFoundError("User not found");
     }
 
     const verifyHash = await Bun.password.verify(password, user.password);
     if (!verifyHash) {
-      return errorResponse(HttpStatus.HTTP_403_FORBIDDEN, "wrong password");
+      throw new ForbiddenError("Wrong password");
     }
 
     if (isDev) {
@@ -87,10 +82,10 @@ class UserService {
     set.cookie = {
       access_token: {
         value: token,
-        // httpOnly: true,
-        // secure: !isDev,
-        // sameSite: "strict",
-        // path: "/",
+        httpOnly: true,
+        secure: !isDev,
+        sameSite: "strict",
+        path: "/",
         maxAge: COOKIE_MAX_AGE,
       },
     };

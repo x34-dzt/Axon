@@ -12,7 +12,7 @@ import {
   WorkspaceMemberRoleEnum,
 } from "@tsukuyomi/db/workspace";
 
-import { errorResponse, HttpStatus } from "~/lib/http";
+import { InternalServerError } from "elysia";
 
 class ProfileService {
   public static async register(
@@ -68,10 +68,7 @@ class ProfileService {
       });
     } catch (error: unknown) {
       console.log("error", error);
-      return errorResponse(
-        HttpStatus.HTTP_500_INTERNAL_SERVER_ERROR,
-        "Something went wrong while creating your profile. Please try again later.",
-      );
+      throw new InternalServerError();
     }
 
     return {
