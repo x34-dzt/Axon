@@ -1,6 +1,7 @@
 import { createSelectSchema } from "drizzle-typebox";
 import { workspaceTable } from "./workspace.sql";
-import { eq, InferInsertModel, InferSelectModel } from "drizzle-orm";
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { db } from "@tsukuyomi/db";
 
 export type WorkspaceModel = InferSelectModel<typeof workspaceTable>;

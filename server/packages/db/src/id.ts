@@ -5,6 +5,8 @@ export const type = {
   profile: "usrp",
   workspace_member: "wmem",
   workspace: "wksp",
+  pages: "pg",
+  pageContents: "pgc",
 } as const;
 
 export const createId = (idType: keyof typeof type) =>
