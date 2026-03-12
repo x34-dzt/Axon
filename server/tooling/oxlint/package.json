@@ -1,0 +1,23 @@
+{
+  "name": "@tsukuyomi/oxlint",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix"
+  },
+  "exports": {
+    ".": {
+      "default": "./index.ts"
+    },
+    "./.oxlintrc.json": "./.oxlintrc.json"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "oxlint": "^1.53.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
