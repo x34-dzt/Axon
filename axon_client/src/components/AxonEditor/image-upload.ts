@@ -2,7 +2,6 @@ import axios from "axios";
 import { toast } from "sonner";
 
 export const onUpload = (file: File): Promise<string> => {
-	console.log("Starting onUpload function with file:", file); // Added log
 	const formData = new FormData();
 	const path = window.location.pathname;
 	const match = path.match(/\/workspace\/(main|axonverse)\/([^\/]+)/);
@@ -24,13 +23,11 @@ export const onUpload = (file: File): Promise<string> => {
 	return new Promise((resolve) => {
 		toast.promise(
 			promise.then(async (res) => {
-				console.log("Received response:", res);
 				if (res.status === 201) {
 					const { data } = res.data;
 					const image = new Image();
 					image.src = data;
 					image.onload = () => {
-						console.log(`Image loaded, resolving with URL: ${data}`);
 						resolve(data);
 					};
 				} else if (res.status === 401) {

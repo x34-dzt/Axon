@@ -10,7 +10,6 @@ const RenderBlog = ({
 	title,
 	// biome-ignore lint/complexity/noBannedTypes: <explanation>
 }: { blogContent: Object; title: string }) => {
-	console.log(blogContent);
 	return (
 		<div
 			spellCheck="false"

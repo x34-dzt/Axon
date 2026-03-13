@@ -121,18 +121,11 @@ const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
 
   useEffect(() => {
     const previousWs = getCurrentWorkspace();
-    console.log("=== WORKSPACE CHANGE ===");
-    console.log("Previous workspace:", previousWs);
-    console.log("Current workspace:", workspaceId);
-
     setCurrentWorkspace(workspaceId);
 
     if (previousWs && previousWs !== workspaceId) {
-      console.log("Workspace changed from:", previousWs, "to:", workspaceId);
       const imagesToDelete = getDeletedImagesExceptWorkspace(workspaceId);
-      console.log("Images to delete (except current):", imagesToDelete);
       if (imagesToDelete.length > 0) {
-        console.log("Deleting images for other workspaces...");
         deleteImagesMutation.mutate(imagesToDelete);
       }
     }
@@ -286,13 +279,6 @@ const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
                     if (input.files?.length) {
                       const file = input.files[0];
                       const pos = editor.view.state.selection.from;
-                      console.log(
-                        "Calling uploadFn with file:",
-                        file,
-                        "and position:",
-                        pos,
-                      );
-                      console.log("hello world");
                       editor.commands.insertAxonImage(file);
                     }
                   };
@@ -423,12 +409,10 @@ const AxonAiModal = ({
         },
       );
 
-      console.log(response);
       if (response.data.text) {
         setGeminiResponse(response.data.text);
       }
     } catch (error) {
-      console.log(error);
       if (error instanceof Error) {
         setError(error.message);
       }
@@ -506,7 +490,7 @@ const AxonAiModal = ({
             onClick={generateResponse}
             disabled={loading}
             size="sm"
-            className={`bg-neutral-800 hover:bg-neutral-700 ${loading && "animate-pulse"}`}
+            className={`bg-neutral-800 hover:bg-neutral-700 text-white ${loading && "animate-pulse"}`}
           >
             {loading ? "Generating..." : "Generate"}
           </Button>
@@ -514,7 +498,7 @@ const AxonAiModal = ({
           <Button
             onClick={onClose}
             size="sm"
-            className="bg-neutral-800 hover:bg-neutral-700"
+            className="bg-neutral-800 hover:bg-neutral-700 text-white"
           >
             {geminiResponse ? "Discard" : "Close"}
           </Button>
