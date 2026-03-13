@@ -29,21 +29,12 @@ const updateBlog = async ({ blogId, setLoading }: UpdateBlogParams) => {
 		);
 
 		const { data }: BlogResponse = response;
-		// if (data?.message) {
-		// 	toast.success("Blog created successfully", {
-		// 		description: data.message,
-		// 		className: "bg-neutral-900 border border-neutral-800",
-		// 		action: {
-		// 			label: "Open",
-		// 			onClick: () =>
-		// 				window.open(
-		// 					`${process.env.NEXT_PUBLIC_WEB_URL}/blog/${data.data.blogId}`,
-		// 					"_blank",
-		// 				),
-		// 		},
-		// 	});
-		// }
-		console.log(data);
+		if (data?.message) {
+			toast.success("Blog updated successfully", {
+				description: data.message,
+				className: "bg-neutral-900 border border-neutral-800",
+			});
+		}
 	} catch (error) {
 		const { data } = error as BlogResponse;
 		const axiosError = error as AxiosError;
@@ -53,7 +44,7 @@ const updateBlog = async ({ blogId, setLoading }: UpdateBlogParams) => {
 				className: "bg-neutral-900 border border-neutral-800",
 				action: {
 					label: "Close",
-					onClick: () => console.log("closed error notification"),
+					onClick: () => {},
 				},
 			});
 		} else {
@@ -62,7 +53,7 @@ const updateBlog = async ({ blogId, setLoading }: UpdateBlogParams) => {
 				className: "bg-neutral-900 border border-neutral-800",
 				action: {
 					label: "Close",
-					onClick: () => console.log("closed error notification"),
+					onClick: () => {},
 				},
 			});
 		}

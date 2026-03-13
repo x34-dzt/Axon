@@ -45,7 +45,6 @@ const turnToBlog = async ({ workspaceId, setLoading }: TurnToBlogParams) => {
 				},
 			});
 		}
-		console.log(data);
 		return { blogId: data.data.blogId };
 	} catch (error) {
 		const { data } = error as BlogResponse;
@@ -56,7 +55,7 @@ const turnToBlog = async ({ workspaceId, setLoading }: TurnToBlogParams) => {
 				className: "bg-neutral-900 border border-neutral-800",
 				action: {
 					label: "Close",
-					onClick: () => console.log("closed error notification"),
+					onClick: () => {},
 				},
 			});
 		} else {
@@ -65,7 +64,7 @@ const turnToBlog = async ({ workspaceId, setLoading }: TurnToBlogParams) => {
 				className: "bg-neutral-900 border border-neutral-800",
 				action: {
 					label: "Close",
-					onClick: () => console.log("closed error notification"),
+					onClick: () => {},
 				},
 			});
 		}

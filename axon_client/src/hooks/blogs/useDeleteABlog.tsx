@@ -33,11 +33,10 @@ const deleteBlog = async ({ blogId, setLoading }: DeleteBlogParams) => {
 				className: "bg-neutral-900 border border-neutral-800",
 				action: {
 					label: "Undo",
-					onClick: () => console.log("Undo deletion (not implemented)"),
+					onClick: () => {},
 				},
 			});
 		}
-		console.log(data);
 	} catch (error) {
 		const { data } = error as BlogResponse;
 		const axiosError = error as AxiosError;
@@ -48,7 +47,7 @@ const deleteBlog = async ({ blogId, setLoading }: DeleteBlogParams) => {
 				className: "bg-neutral-900 border border-neutral-800",
 				action: {
 					label: "Close",
-					onClick: () => console.log("closed error notification"),
+					onClick: () => {},
 				},
 			});
 		} else {
@@ -57,7 +56,7 @@ const deleteBlog = async ({ blogId, setLoading }: DeleteBlogParams) => {
 				className: "bg-neutral-900 border border-neutral-800",
 				action: {
 					label: "Close",
-					onClick: () => console.log("closed error notification"),
+					onClick: () => {},
 				},
 			});
 		}
