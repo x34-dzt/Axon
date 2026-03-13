@@ -7,11 +7,10 @@ const handleRemoveCoverFromServer = async ({
 	workspaceId,
 }: { workspaceId: string }) => {
 	try {
-		const res = await axios.delete(
+		await axios.delete(
 			`${process.env.NEXT_PUBLIC_API_URL}/api/workspace/cover/remove/${workspaceId}`,
 			{ withCredentials: true },
 		);
-		console.log(res.data);
 	} catch (error) {
 		const axiosError = error as AxonError;
 		toast.error("Failed to remove workspace cover", {
@@ -19,7 +18,7 @@ const handleRemoveCoverFromServer = async ({
 			className: "bg-neutral-900 border border-neutral-800",
 			action: {
 				label: "Close",
-				onClick: () => console.log("closed error notification"),
+				onClick: () => {},
 			},
 		});
         throw new Error(axiosError.message)

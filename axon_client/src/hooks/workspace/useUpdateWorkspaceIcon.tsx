@@ -23,7 +23,6 @@ const updateIcon = async ({
 			},
 		);
 
-		console.log(response.data);
 		return response.data;
 	} catch (error) {
 		const axiosError = error as AxonError;
@@ -32,7 +31,7 @@ const updateIcon = async ({
 			className: "bg-neutral-900 border border-neutral-800",
 			action: {
 				label: "Close",
-				onClick: () => console.log("closed error notification"),
+				onClick: () => {},
 			},
 		});
 	}

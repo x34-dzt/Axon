@@ -23,7 +23,7 @@ const updateWorkspaceWidth = async ({
 }: UpdateWorkspaceWidthParams) => {
 	const prevWidth = oldWidth;
 	try {
-		const response = await axios.post<CommonWorkspaceResponse>(
+		await axios.post<CommonWorkspaceResponse>(
 			`${process.env.NEXT_PUBLIC_API_URL}/api/workspace/width/transaction`,
 			{
 				workspaceId,
@@ -33,8 +33,6 @@ const updateWorkspaceWidth = async ({
 				withCredentials: true,
 			},
 		);
-
-		console.log(response.data);
 	} catch (error) {
 		const axiosError = error as AxonError;
 		toast.error("Failed to update the width", {
@@ -42,13 +40,12 @@ const updateWorkspaceWidth = async ({
 			className: "bg-neutral-900 border border-neutral-800",
 			action: {
 				label: "Close",
-				onClick: () => console.log("closed error notification"),
+				onClick: () => {},
 			},
 		});
 
 		// Revert width to the previous value on error
 		updateWorkspaceWidth(workspaceId, workspaceType, prevWidth);
-		console.log(error);
 	}
 };
 

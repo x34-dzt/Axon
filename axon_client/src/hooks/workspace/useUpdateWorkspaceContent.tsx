@@ -32,10 +32,9 @@ const updateWorkspaceContentOnServer = async ({
 			className: "bg-neutral-900 border border-neutral-800",
 			action: {
 				label: "Close",
-				onClick: () => console.log("closed error notification"),
+				onClick: () => {},
 			},
 		});
-		console.error(error);
 	}
 };
 

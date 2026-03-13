@@ -48,13 +48,12 @@ const updateWorkspaceTitle = async ({
 		.catch((error: AxonError) => {
 			// Revert title on error and show toast notification with details
 			updateWorkspaceTitleById(workspaceId, oldTitle, workspaceType);
-			console.error("Error creating workspace:", error.message);
 			toast.error("Failed to change the name", {
 				description: `failed to change the name from ${oldTitle} to ${newTitle}, ${error.response?.data.message}`,
 				className: "bg-neutral-900 border border-neutral-800",
 				action: {
 					label: "Close",
-					onClick: () => console.log("closed error notification"),
+					onClick: () => {},
 				},
 			});
 		});

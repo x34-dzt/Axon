@@ -27,7 +27,9 @@ const pushWorkspace = async ({
 			},
 		);
 
-		console.log(response.data);
+		toast.success("Workspace moved successfully", {
+			className: "bg-neutral-900 border border-neutral-800",
+		});
 	} catch (error) {
 		const axonError = error as AxonError;
 		// console.log(axonError.response?.data.message);
@@ -37,7 +39,7 @@ const pushWorkspace = async ({
 			className: "bg-neutral-900 border border-neutral-800",
 			action: {
 				label: "Close",
-				onClick: () => console.log("closed error notification"),
+				onClick: () => {},
 			},
 		});
 	}

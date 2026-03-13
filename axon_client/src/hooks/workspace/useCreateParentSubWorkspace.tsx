@@ -37,18 +37,14 @@ const createSubParentWorkspace = ({
 				withCredentials: true,
 			},
 		)
-		.then((data) => {
-			console.log(data);
-		})
 		.catch((error: AxonError) => {
 			removeWorkspace(_id, workspace);
-			console.error("Error creating workspace:", error.message);
 			toast.error("Failed to create new workspace", {
 				description: `Failed to create the workspace with id: ${_id}`,
 				className: "bg-neutral-900 border border-neutral-800",
 				action: {
 					label: "Close",
-					onClick: () => console.log("closed error notification"),
+					onClick: () => {},
 				},
 			});
 		});
