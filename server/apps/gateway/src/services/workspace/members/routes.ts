@@ -13,9 +13,6 @@ const workspaceMemberRoutes = new Elysia({
   .decorate("service", {
     workspaceMember: WorkspaceMemberService,
   })
-  .onError(({ code, error }) => {
-    console.log({ code, error });
-  })
   .get(
     "/",
     async ({ params, query, service }) => {

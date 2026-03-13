@@ -1,8 +1,9 @@
 import cookie from "@elysiajs/cookie";
 import Elysia from "elysia";
 import { JWT } from "../lib/jwt";
+import type { UserModel } from "@tsukuyomi/db/user";
 import { User } from "@tsukuyomi/db/user";
-import { errorResponse, HttpStatus } from "~/lib/http";
+import { UnauthorizedError } from "../lib/error";
 
 /*
  * Hey there, I am already checking here if the user exists or not
@@ -12,35 +13,30 @@ import { errorResponse, HttpStatus } from "~/lib/http";
  */
 export const authGuard = new Elysia({ name: "auth" })
   .use(cookie())
-  .derive({ as: "scoped" }, async ({ cookie }) => {
-    const token = cookie.access_token?.value;
+  .derive(
+    { as: "scoped" },
+    async ({ cookie }): Promise<{ user: UserModel }> => {
+      console.log("hello world authGuard");
+      const token = cookie.access_token?.value;
 
-    if (!token) {
-      return errorResponse(
-        HttpStatus.HTTP_401_UNAUTHORIZED,
-        "You cannot access the tsukuyomi.",
-      );
-    }
+      if (!token) {
+        throw new UnauthorizedError();
+      }
 
-    const userClaims = JWT.verifyToken(token as string);
-    if (!userClaims.sub) {
-      return errorResponse(
-        HttpStatus.HTTP_401_UNAUTHORIZED,
-        "You cannot access the tsukuyomi.",
-      );
-    }
+      const userClaims = JWT.verifyToken(token as string);
+      if (!userClaims.sub) {
+        throw new UnauthorizedError();
+      }
 
-    const user = await User.find(userClaims.sub);
-    if (!user) {
-      return errorResponse(
-        HttpStatus.HTTP_401_UNAUTHORIZED,
-        "You cannot access the tsukuyomi.",
-      );
-    }
+      const user = await User.find(userClaims.sub);
+      if (!user) {
+        throw new UnauthorizedError();
+      }
 
-    console.log("authGuardUser", {
-      token,
-    });
+      console.log("authGuardUser", {
+        token,
+      });
 
-    return { user };
-  });
+      return { user };
+    },
+  );

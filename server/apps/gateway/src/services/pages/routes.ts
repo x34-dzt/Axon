@@ -1,7 +1,7 @@
 import { workspaceGuard } from "~/guard";
 import { Elysia } from "elysia";
 
-const pageRotues = new Elysia({
+export const pageRotues = new Elysia({
   prefix: "/workspace/:id/pages",
   detail: { tags: ["workspace"] },
 })
