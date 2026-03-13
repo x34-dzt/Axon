@@ -56,7 +56,6 @@ export const userSignUpService = async (
 			data: newUser,
 		};
 
-		console.log("new user created", newUser);
 		const jwtToken = generateJsonWebToken(response.data);
 		return {
 			jwtToken,
@@ -191,16 +190,12 @@ export const changePasswordService = async (
 	}
 };
 
-
 export const changeUsernameService = async (
 	userId: string,
 	username: string,
 ) => {
 	try {
-		const response = await userRepo.changeUsername(
-			userId,
-			username
-		);
+		const response = await userRepo.changeUsername(userId, username);
 		if (response.error) {
 			return axonResponse(400, {
 				status: "error",
