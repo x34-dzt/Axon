@@ -98,7 +98,6 @@ const SearchWorkspace = () => {
 		} else if (e.key === "Enter" && selectedIndex !== -1) {
 			e.preventDefault();
 			const selectedWorkspace = allWorkspaces[selectedIndex];
-			console.log(selectedWorkspace);
 			router.push(
 				`${process.env.NEXT_PUBLIC_WEB_URL}/workspace/${selectedWorkspace.workspace}/${selectedWorkspace._id}`,
 			);
@@ -129,7 +128,7 @@ const SearchWorkspace = () => {
 							initial={{ opacity: 0, y: -10 }}
 							animate={{ opacity: 1, y: 0 }}
 							exit={{ opacity: 0, y: 10 }}
-							className="fixed inset-0 flex flex-col items-center justify-center z-[100000000000000] bg-black/50 h-screen"
+							className="fixed inset-0 flex flex-col items-center justify-center z-[500] bg-black/50 h-screen"
 						>
 							<Input
 								ref={inputRef}
@@ -229,7 +228,7 @@ const SearchWorkspace = () => {
 							initial={{ backdropFilter: "blur(0px)" }}
 							animate={{ backdropFilter: "blur(10px)" }}
 							exit={{ backdropFilter: "blur(0px)" }}
-							className="fixed inset-0 z-[10000] h-screen w-full"
+							className="fixed inset-0 z-[100] h-screen w-full"
 						/>
 					</>
 				)}

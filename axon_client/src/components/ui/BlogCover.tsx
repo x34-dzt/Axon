@@ -10,13 +10,21 @@ const BlogCover = ({
 	icon,
 	title,
 	yPos,
-}: { cover: string; icon: string; title: string; yPos: number }) => {
+	gradient,
+}: { cover: string; icon: string; title: string; yPos: number; gradient?: { from: string; to: string } }) => {
+	const gradientStyle = gradient
+		? { background: `linear-gradient(to bottom, ${gradient.from} 0%, rgba(13, 13, 13, 0.6) 50%, #0D0D0D 83%)` }
+		: {};
+
 	return (
 		<div
 			className={`${cover ? "h-[290px]" : "h-[200px]"} group transition-all overflow-hidden relative max-w-[800px] mx-auto`}
 		>
 			<div className=" fade-in-0 animate-in relative w-full h-full">
-				<div className="bg-gradient-to-b from-slate-50/0 via-[#0F0F0F]/60 rounded-sm to-[#0F0F0F] to-[83%] h-full w-full select-none absolute z-[5] top-0 left-0" />
+				<div
+					className="rounded-sm h-full w-full select-none absolute z-[5] top-0 left-0"
+					style={gradientStyle}
+				/>
 				{/* remove the asset when uploading images to cloud */}
 				{cover ? (
 					<Image

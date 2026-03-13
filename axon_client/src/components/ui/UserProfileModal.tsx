@@ -85,7 +85,6 @@ export default function UserProfileModal({
       return;
     }
     setIsChangingPassword(true);
-    console.log("Password change requested");
     const { status, message } = await changePassword(
       currentPassword,
       newPassword,
@@ -158,7 +157,7 @@ export default function UserProfileModal({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.05 }}
-            className="fixed inset-0 flex items-center z-[100000] justify-center"
+            className="fixed inset-0 flex items-center z-[500] justify-center"
           >
             <Card className="w-full bg-customMain border-neutral-800 text-white max-w-md mx-auto">
               <CardHeader>
@@ -353,7 +352,7 @@ export default function UserProfileModal({
             animate={{ backdropFilter: "blur(10px)" }}
             exit={{ backdropFilter: "blur(0px)" }}
             transition={{ duration: 0.05 }}
-            className="fixed inset-0 bg-customPrimary/80 z-[1000] h-screen w-full"
+            className="fixed inset-0 bg-customPrimary/80 z-[500] h-screen w-full"
           />
         </>
       )}
