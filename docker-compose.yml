@@ -37,16 +37,16 @@ services:
       - workspace
       - blog
 
-frontend:
-  build: "./axon_client"
-  ports:
-    - 3000:3000
-  env_file:
-    - "./axon_client/.env.local"
-  networks:
-    - axon-network
-  depends_on:
-    - gateway
+  # frontend:
+  #   build: "./axon_client"
+  #   ports:
+  #     - 3000:3000
+  #   env_file:
+  #     - "./axon_client/.env.local"
+  #   networks:
+  #     - axon-network
+  #   depends_on:
+  #     - gateway
 
 networks:
   axon-network:
