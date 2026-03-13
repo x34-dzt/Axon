@@ -23,7 +23,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`sticky max-h-screen overflow-y-auto z-[1000000] border-r border-[#262626] flex-shrink-0 bg-customPrimary h-screen top-0 ${navOpen ? "ml-0" : "-ml-[251px]"} custom-transition-all w-[250px] py-[25px] px-[20px]`}
+      className={`sticky max-h-screen z-[99999] overflow-y-auto border-r border-[#262626] flex-shrink-0 bg-customPrimary h-screen top-0 ${navOpen ? "ml-0" : "-ml-[251px]"} custom-transition-all w-[250px] py-[25px] px-[20px]`}
     >
       <div className="flex flex-col gap-[25px] h-full">
         <NavbarHeader />
