@@ -59,9 +59,9 @@ const WorkspaceTopBar = ({
   const { user } = useAuthStore();
 
   return (
-    <div className="flex transition-all z-[10000] workspace-top-bar top-0  border-[#262626] sticky gap-[16px] h-[42px] items-center bg-customMain/80">
+    <div className="flex transition-all z-[100] workspace-top-bar top-0  border-[#262626] sticky gap-[16px] h-[42px] items-center bg-customMain/80">
       <div className="absolute inset-0 " />
-      <div className="flex ml-2 gap-2 relative z-[100] pl-2">
+      <div className="flex ml-2 gap-2 relative z-0 pl-2">
         <button className="hover:bg-neutral-800/20  rounded-md group">
           <FiSidebar
             height={30}
@@ -138,6 +138,7 @@ const WorkspaceTopBar = ({
             setModal={setOpenModal}
             top={modalPosition.y}
             left={modalPosition.x}
+            triggerRef={bsThreeDotsRef}
           />
         )}
       </div>

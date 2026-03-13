@@ -2,6 +2,7 @@
 
 import { useWorkspaceStore, type WorkspaceStore } from "@/stores/workspace";
 import Workspace from "./Workspace";
+import RecentWorkspace from "./RecentWorkspace";
 import { IoIosAdd } from "react-icons/io";
 import { useAuthStore } from "@/stores/auth";
 import useCreateNewParentWorkspace from "@/hooks/workspace/useCreateParentWorkspace";
@@ -72,7 +73,7 @@ const WorkspaceSection = () => {
         className: "bg-neutral-900 border border-neutral-800",
         action: {
           label: "Close",
-          onClick: () => console.log("closed error notification"),
+          onClick: () => {},
         },
       });
     }
@@ -80,6 +81,7 @@ const WorkspaceSection = () => {
 
   return (
     <>
+      <RecentWorkspace />
       <div className="text-[11px] flex items-center justify-between gap-1 group ">
         <span className="text-neutral-500">Main</span>
         {!isLoading && (
@@ -93,7 +95,7 @@ const WorkspaceSection = () => {
         )}
       </div>
       {isLoading ? (
-        <Skeleton className="bg-neutral-800 w-full h-[24px]" />
+        <Skeleton className="bg-neutral-800 w-full h-[24px] mt-3" />
       ) : (
         workspaceStore.workspace?.main?.length != 0 && (
           <div className="flex flex-col gap-1 pt-2 pb-3">
@@ -109,7 +111,7 @@ const WorkspaceSection = () => {
         )
       )}
       {isLoading ? (
-        <Skeleton className="bg-neutral-800 w-full h-[23px]" />
+        <Skeleton className="bg-neutral-800 w-full h-[24px] my-3" />
       ) : (
         workspaceStore.workspace.main?.length === 0 && (
           <button
@@ -137,7 +139,7 @@ const WorkspaceSection = () => {
         )}
       </div>
       {isLoading ? (
-        <Skeleton className="bg-neutral-800 w-full h-[23px]" />
+        <Skeleton className="bg-neutral-800 w-full h-[24px] mt-3" />
       ) : (
         workspaceStore.workspace.axonverse?.length !== 0 && (
           <div className="flex flex-col gap-1 pt-2 pb-3">
@@ -153,7 +155,7 @@ const WorkspaceSection = () => {
         )
       )}
       {isLoading ? (
-        <Skeleton className="bg-neutral-800 w-full h-[23px]" />
+        <Skeleton className="bg-neutral-800 w-full h-[24px] my-3" />
       ) : (
         workspaceStore.workspace.axonverse?.length === 0 && (
           <button

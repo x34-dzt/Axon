@@ -98,7 +98,6 @@ const WorkspaceCover = ({
         },
         {
           onSuccess: (data) => {
-            console.log(data);
             workspace.updateWorkspaceCover(
               currentWorkspace._id,
               currentWorkspace.workspace,
@@ -111,13 +110,12 @@ const WorkspaceCover = ({
             });
           },
           onError: (error) => {
-            console.log(error);
             if (error.response?.data) {
               toast.error(error.response.data.message, {
                 className: "bg-neutral-900 border border-neutral-800",
                 action: {
                   label: "Close",
-                  onClick: () => console.log("closed error notification"),
+                  onClick: () => {},
                 },
               });
               updateSavingContent({

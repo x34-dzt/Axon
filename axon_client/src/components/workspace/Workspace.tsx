@@ -33,15 +33,16 @@ const Workspace = ({ workspaceLink }: { workspaceLink: IUserWorkspace }) => {
   });
   const bsThreeDotsRef = useRef<HTMLDivElement>(null);
   const handleModalOperation = (e: React.MouseEvent<SVGElement>) => {
+    e.stopPropagation();
     if (!bsThreeDotsRef.current) return;
     const { top, left } = bsThreeDotsRef.current.getBoundingClientRect();
 
     setModalPosition({
-      x: window.innerWidth < 500 ? left - 200 : left - 200,
+      x: left,
       y: window.innerHeight < top + 300 ? top - 275 : top,
     });
 
-    setOpenModal(() => true);
+    setOpenModal((prev) => !prev);
   };
 
   const addNewSubWorkspace = () => {
@@ -76,6 +77,7 @@ const Workspace = ({ workspaceLink }: { workspaceLink: IUserWorkspace }) => {
           workspaceType={workspaceLink.workspace}
           top={modalPosition.y}
           left={modalPosition.x}
+          triggerRef={bsThreeDotsRef as React.RefObject<HTMLElement>}
         />
       )}
       <div
@@ -83,7 +85,7 @@ const Workspace = ({ workspaceLink }: { workspaceLink: IUserWorkspace }) => {
         className="flex animate-in rounded-[8px] fade-in-0 justify-center relative flex-col"
       >
         <div
-          className={`py-1 px-1 rounded-lg flex select-none relative z-[10] group cursor-pointer items-center justify-between text-[13px] hover:bg-accent ${isActive ? "opacity-100" : "opacity-60"} hover:opacity-100 transition-all gap-1`}
+          className={`py-1 px-1 rounded-lg flex select-none relative z-[10] group cursor-pointer items-center justify-between text-[13px] hover:bg-accent ${isActive ? "bg-accent opacity-100" : "opacity-60"} hover:opacity-100 transition-all gap-1`}
         >
           <div className="flex items-center gap-[10px]">
             <div className="relative hover:bg-neutral-900  transition-all rounded-md w-[17px] h-[17px]">
@@ -120,7 +122,7 @@ const Workspace = ({ workspaceLink }: { workspaceLink: IUserWorkspace }) => {
                 ? workspaceLink.title.length > 18
                   ? `${workspaceLink.title.substring(0, 10)}...`
                   : workspaceLink.title
-                : "untitled"}
+                : "Empty page"}
             </Link>
           </div>
           <div className="flex gap-1">
@@ -173,7 +175,6 @@ const WorkspaceFolder = ({
   const { createSubParentWorkspace } = useCreateNewSubParentWorkspace();
   const path = usePathname();
   const isActive = path.includes(workspaceLink._id);
-  console.log(workspaceLink._id);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const { addNewSubWorkspaceById, addNewRecentWorkspace, removeWorkspace } =
     useWorkspaceStore();
@@ -185,7 +186,8 @@ const WorkspaceFolder = ({
     y: 0,
   });
   const bsThreeDotsRef = useRef<HTMLDivElement>(null);
-  const handleModalOperation = () => {
+  const handleModalOperation = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!bsThreeDotsRef.current) return;
     const { top, left } = bsThreeDotsRef.current.getBoundingClientRect();
 
@@ -223,7 +225,7 @@ const WorkspaceFolder = ({
     <div className="flex flex-col fade-in-0 animate-in">
       <div
         key={workspaceLink.title}
-        className={`flex py-1 px-1 rounded-lg hover:bg-accent group cursor-pointer items-center justify-between text-[13px] ${isActive ? "opacity-100" : "opacity-60"} hover:opacity-100 transition-all  gap-[10px]`}
+        className={`flex py-1 px-1 rounded-lg hover:bg-accent group cursor-pointer items-center justify-between text-[13px] ${isActive ? "bg-accent opacity-100" : "opacity-60"} hover:opacity-100 transition-all  gap-[10px]`}
       >
         <div className="flex flex-shrink-0 items-center gap-[10px]">
           <div className="relative w-[17px] h-[17px]">
@@ -260,7 +262,7 @@ const WorkspaceFolder = ({
               ? workspaceLink.title.length > 18
                 ? `${workspaceLink.title.substring(0, 10)}...`
                 : workspaceLink.title
-              : "untitled"}
+              : "Empty page"}
           </Link>
         </div>
 
@@ -288,6 +290,7 @@ const WorkspaceFolder = ({
           workspaceType={workspaceLink.workspace}
           top={modalPosition.y}
           left={modalPosition.x}
+          triggerRef={bsThreeDotsRef as React.RefObject<HTMLElement>}
         />
       )}
       {openFolder && (

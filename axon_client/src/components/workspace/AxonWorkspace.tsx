@@ -71,6 +71,12 @@ const AxonWorkspace = ({
     traversePreviousNodes(demoObject, []);
   }
 
+  useEffect(() => {
+    if (currentWorkspace?.title) {
+      document.title = currentWorkspace.title;
+    }
+  }, [currentWorkspace?.title]);
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     //setting the folder data in a state
@@ -80,7 +86,7 @@ const AxonWorkspace = ({
   // showing loading animations till all the workspaces are fetched
   if (!workspaceStore.allWorkspacesFetched) {
     return (
-      <div className="h-screen  w-full ">
+      <div className="h-screen w-full">
         <Skeleton className="bg-neutral-900 animate-pulse h-[248px] w-full" />
         <div className=" py-[20px] w-full flex flex-col gap-4 mx-auto px-[50px] animate-pulse">
           <Skeleton className="h-[20px] w-full bg-neutral-800" />
