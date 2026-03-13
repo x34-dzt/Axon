@@ -6,7 +6,6 @@ const changePassword = async (
 	newPassword: string,
 ): Promise<{ status: "error" | "success"; message: string }> => {
 	try {
-		console.log("hello world");
 		const response = await axios.post(
 			`${process.env.NEXT_PUBLIC_API_URL}/api/auth/change-password`,
 			{
