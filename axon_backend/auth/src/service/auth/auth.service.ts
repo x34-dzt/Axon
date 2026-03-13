@@ -55,8 +55,8 @@ export const checkAuthService = (token: string): TAuthResponse => {
 	} catch (error) {
 		const errorResponse: TAuthResponse = {
 			error: true,
-			message: "Internal server error",
-			statusCode: 500,
+			message: "Unauthorized",
+			statusCode: 401,
 			user: null,
 		};
 		return errorResponse;
