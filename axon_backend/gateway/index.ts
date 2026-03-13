@@ -12,6 +12,7 @@ const services = {
 };
 
 app.use("/api/auth", (req, res) => {
+	req.url = req.url.replace(/^\/api\/auth/, "");
 	proxy.web(req, res, { target: services.auth });
 });
 

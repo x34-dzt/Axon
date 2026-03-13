@@ -95,7 +95,10 @@ export class BlogRepository {
 	async updateBlog({
 		userId,
 		blogId,
-	}: { userId: string; blogId: string }): Promise<CommonBlogReturn> {
+	}: {
+		userId: string;
+		blogId: string;
+	}): Promise<CommonBlogReturn> {
 		const blog = await Blog.findById(blogId);
 
 		if (!blog) {
@@ -155,7 +158,7 @@ export class BlogRepository {
 		const blog = await Blog.findById(blogId)
 			.populate({
 				path: "workspaceId",
-				select: "icon cover title coverPos",
+				select: "icon cover title coverPos gradient",
 			})
 			.populate({
 				path: "content",
