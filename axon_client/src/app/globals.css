@@ -299,9 +299,90 @@ pre {
     rgba(0, 0, 0, 1) 100%
   );
 }
+
 .gradient-blur::after {
   content: "";
   z-index: 8;
   backdrop-filter: blur(30px);
   mask: linear-gradient(to top, rgba(0, 0, 0, 0) 87.5%, rgba(0, 0, 0, 1) 100%);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  cursor: default;
+}
+
+.column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: transparent;
+  cursor: col-resize;
+  z-index: 20;
+  transition: background-color 0.15s;
+}
+
+.column-resize-handle:hover,
+.resize-cursor .column-resize-handle {
+  background-color: #3b82f6; /* blue-500 */
+}
+
+.resize-cursor {
+  cursor: col-resize !important;
+}
+
+.ProseMirror table td,
+.ProseMirror table th {
+  position: relative;
+}
+
+.ProseMirror table .selectedCell {
+  background-color: rgba(59, 130, 246, 0.15);
+}
+
+.ProseMirror table::before,
+.ProseMirror table::after,
+.ProseMirror tr::before,
+.ProseMirror tr::after,
+.ProseMirror td::before,
+.ProseMirror td::after,
+.ProseMirror th::before,
+.ProseMirror th::after,
+.ProseMirror thead::before,
+.ProseMirror thead::after,
+.ProseMirror tbody::before,
+.ProseMirror tbody::after {
+  content: none !important;
+  display: none !important;
+}
+.ProseMirror td p::before,
+.ProseMirror td p::after,
+.ProseMirror th p::before,
+.ProseMirror th p::after {
+  content: none !important;
+  display: none !important;
+}
+.ProseMirror td p,
+.ProseMirror th p {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.ProseMirror table {
+  position: relative;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.ProseMirror td,
+.ProseMirror th {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.tableWrapper table {
+  margin-block: 4px !important;
 }
