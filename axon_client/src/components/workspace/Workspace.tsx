@@ -20,7 +20,7 @@ const Workspace = ({ workspaceLink }: { workspaceLink: IUserWorkspace }) => {
   const path = usePathname();
   const isActive = path.includes(workspaceLink._id);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const { addNewSubWorkspaceById, addNewRecentWorkspace, removeWorkspace } =
+  const { addNewSubWorkspaceById, removeWorkspace } =
     useWorkspaceStore();
 
   const { createSubParentWorkspace } = useCreateNewSubParentWorkspace();
@@ -93,7 +93,7 @@ const Workspace = ({ workspaceLink }: { workspaceLink: IUserWorkspace }) => {
                 name={workspaceLink.icon}
                 height={17}
                 width={17}
-                DClassName="absolute opacity-100 group-hover:opacity-0 transition-all top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
+                className="absolute opacity-100 group-hover:opacity-0 transition-all top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
               />
               {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
               <div
@@ -108,15 +108,6 @@ const Workspace = ({ workspaceLink }: { workspaceLink: IUserWorkspace }) => {
             <Link
               href={`/workspace/${workspaceLink.workspace}/${workspaceLink._id}`}
               className="hover:underline leading-[0%]"
-              onClick={() => {
-                addNewRecentWorkspace(
-                  workspaceLink._id,
-                  workspaceLink.workspace,
-                  workspaceLink.title ? workspaceLink.title : "undefined",
-                  workspaceLink.icon ? workspaceLink.icon : "axon_logo.svg",
-                  workspaceLink.cover ? workspaceLink.cover : "",
-                );
-              }}
             >
               {workspaceLink.title
                 ? workspaceLink.title.length > 18
@@ -176,7 +167,7 @@ const WorkspaceFolder = ({
   const path = usePathname();
   const isActive = path.includes(workspaceLink._id);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const { addNewSubWorkspaceById, addNewRecentWorkspace, removeWorkspace } =
+  const { addNewSubWorkspaceById, removeWorkspace } =
     useWorkspaceStore();
   const router = useRouter();
   const { user } = useAuthStore();
@@ -233,7 +224,7 @@ const WorkspaceFolder = ({
               name={workspaceLink.icon}
               height={17}
               width={17}
-              DClassName="absolute opacity-100 group-hover:opacity-0 transition-all top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
+              className="absolute opacity-100 group-hover:opacity-0 transition-all top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
             />
             {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
             <div
@@ -246,15 +237,6 @@ const WorkspaceFolder = ({
             </div>
           </div>
           <Link
-            onClick={() => {
-              addNewRecentWorkspace(
-                workspaceLink._id,
-                workspaceLink.workspace,
-                workspaceLink.title ? workspaceLink.title : "undefined",
-                workspaceLink.icon ? workspaceLink.icon : "axon_logo.svg",
-                workspaceLink.cover ? workspaceLink.cover : "",
-              );
-            }}
             href={`/workspace/${workspaceLink.workspace}/${workspaceLink._id}`}
             className="text-nowrap hover:underline "
           >

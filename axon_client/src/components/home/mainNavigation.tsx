@@ -25,12 +25,6 @@ const MainNavigation = () => {
       workspaceType: workspace.workspace,
     }));
 
-  const recent = [
-    ...new Map(
-      workspaceStore.workspace.recent?.map((w) => [w._id, w]),
-    ).values(),
-  ];
-
   return (
     <div className="px-[40px] py-[40px] space-y-[30px]">
       <h2 className="font-bold text-[18px] text_glow">
@@ -77,33 +71,6 @@ const MainNavigation = () => {
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
         </div>
-        {recent.length !== 0 && (
-          <div className="flex flex-col gap-[10px]">
-            <p className="text-[#595959] text-[13px]">recently visited</p>
-            <ScrollArea className="w-full whitespace-nowrap">
-              <div className="flex gap-[10px] pb-2.5">
-                {recent.map((recentWorkspace) => (
-                  <Link
-                    key={recentWorkspace._id}
-                    href={`/workspace/${recentWorkspace.workspaceType}/${recentWorkspace._id}`}
-                    className="flex items-center hover:bg-neutral-800 transition-all rounded-lg px-2 py-1 gap-[10px]"
-                  >
-                    <DynamicIcon
-                      name={recentWorkspace.icon}
-                      height={15}
-                      width={15}
-                      DClassName="translate-y-[1px] scale-[0.94]"
-                    />
-                    <span className="text-[15px] leading-tight">
-                      {recentWorkspace.title}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-              <ScrollBar orientation="horizontal" />
-            </ScrollArea>
-          </div>
-        )}
       </div>
     </div>
   );
@@ -116,20 +83,9 @@ const NavItems = ({
   icon,
   workspaceType,
 }: TNavigationWorkspaceContent) => {
-  const workspaceStore = useWorkspaceStore();
-
   return (
     <Link
       draggable={false}
-      onClick={() => {
-        workspaceStore.addNewRecentWorkspace(
-          _id,
-          workspaceType,
-          title ? title : "undefined",
-          icon ? icon : "axon_logo.svg",
-          cover ? cover : "",
-        );
-      }}
       href={`/workspace/${workspaceType}/${_id}`}
       className="flex select-none items-center flex-shrink-0 hover:bg-neutral-800 transition-all rounded-lg px-2 py-1 gap-[10px]"
     >
@@ -137,7 +93,7 @@ const NavItems = ({
         name={icon}
         height={15}
         width={15}
-        DClassName="translate-y-[1px] scale-[0.94]"
+        className="translate-y-[1px] scale-[0.94]"
       />
       <span className="text-[15px] leading-tight">{title}</span>
     </Link>
