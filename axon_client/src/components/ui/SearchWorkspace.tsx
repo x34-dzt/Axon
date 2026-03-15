@@ -260,7 +260,7 @@ const WorkspaceButton = ({
 			}`}
 		>
 			<div className="group-hover:translate-x-1 transition-all">
-				<DynamicIcon name={workspace.icon} DClassName="translate-y-[0.3px]" />
+				<DynamicIcon name={workspace.icon} className="translate-y-[0.3px]" />
 			</div>
 			<div className="group-hover:translate-x-1 transition-all">
 				{workspace.title}

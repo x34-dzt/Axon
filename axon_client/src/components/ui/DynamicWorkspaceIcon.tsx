@@ -7,11 +7,11 @@ interface DynamicWorkspaceIconProps {
 	name: string | null;
 	width?: string | number;
 	height?: string | number;
-	DClassName?: ClassValue;
+	className?: ClassValue;
 	IconClassName?: ClassValue;
 }
 
-const DynamicWorkspaceIcon = ({ name, width, height, DClassName, IconClassName }: DynamicWorkspaceIconProps) => {
+const DynamicWorkspaceIcon = ({ name, width, height, className, IconClassName }: DynamicWorkspaceIconProps) => {
 	// @ts-ignore
 	const IconComponent = Icons[name];
 	if (IconComponent === null || IconComponent === undefined)
@@ -22,7 +22,7 @@ const DynamicWorkspaceIcon = ({ name, width, height, DClassName, IconClassName }
 				height={25}
 				width={25}
 				draggable={false}
-				className={cn(DClassName, "translate-x-2")}
+				className={cn(className, "translate-x-2")}
 			/>
 		);
 

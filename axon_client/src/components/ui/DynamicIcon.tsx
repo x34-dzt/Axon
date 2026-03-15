@@ -7,10 +7,10 @@ interface DynamicIconProps {
 	name: string | null;
 	width?: string | number;
 	height?: string | number;
-	DClassName?: ClassValue;
+	className?: ClassValue;
 }
 
-const DynamicIcon = ({ name, width, height, DClassName }: DynamicIconProps) => {
+const DynamicIcon = ({ name, width, height, className }: DynamicIconProps) => {
 	// @ts-ignore
 	const IconComponent = Icons[name];
 	if (IconComponent === null || IconComponent === undefined)
@@ -21,7 +21,7 @@ const DynamicIcon = ({ name, width, height, DClassName }: DynamicIconProps) => {
 				height={18}
 				width={18}
 				draggable={false}
-				className={cn(DClassName)}
+				className={cn(className)}
 			/>
 		);
 
@@ -30,7 +30,7 @@ const DynamicIcon = ({ name, width, height, DClassName }: DynamicIconProps) => {
 			width={width}
 			height={height}
 			stroke="2"
-			className={`scale-125 -translate-y-1 ${cn(DClassName)}`}
+			className={`scale-125 -translate-y-1 ${cn(className)}`}
 		/>
 	);
 };

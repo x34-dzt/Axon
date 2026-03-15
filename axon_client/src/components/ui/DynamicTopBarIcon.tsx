@@ -7,14 +7,14 @@ interface DynamicTopBarIconProps {
 	name: string | null;
 	width?: string | number;
 	height?: string | number;
-	DClassName?: ClassValue;
+	className?: ClassValue;
 }
 
 const DynamicTopBarIcon = ({
 	name,
 	width,
 	height,
-	DClassName,
+	className,
 }: DynamicTopBarIconProps) => {
 	// @ts-ignore
 	const IconComponent = Icons[name];
@@ -26,7 +26,7 @@ const DynamicTopBarIcon = ({
 				height={17}
 				width={17}
 				draggable={false}
-				className={cn(DClassName)}
+				className={cn(className)}
 			/>
 		);
 
@@ -35,7 +35,7 @@ const DynamicTopBarIcon = ({
 			width={width}
 			height={height}
 			stroke-width="2"
-			className={`${cn(DClassName)} stroke-2`}
+			className={`${cn(className)} stroke-2`}
 		/>
 	);
 };
