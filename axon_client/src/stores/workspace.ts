@@ -1,4 +1,4 @@
-import type { TAuthUser, TNavigationWorkspaceContent } from "@/types";
+import type { TAuthUser } from "@/types";
 import type { JSONContent } from "novel";
 import { create } from "zustand";
 import { v4 as uuidv4 } from "uuid";
@@ -59,17 +59,36 @@ type SavingContent = {
   savingStatus: boolean;
 };
 
+export type Tab = {
+  workspaceId: string;
+  workspaceType: "main" | "axonverse";
+  title: string;
+  icon: string | null;
+};
+
 export interface IUserWorkspaceStore {
   workspace: {
     main: IUserWorkspace[] | null;
     axonverse: IUserWorkspace[] | null;
-    recent: TNavigationWorkspaceContent[] | null;
   };
 
   // Loading states
   navOpen: boolean;
   savingContent: SavingContent;
   allWorkspacesFetched: boolean;
+
+  // Tab management
+  tabs: Tab[];
+  activeTabId: string | null;
+  addTab: (
+    workspaceId: string,
+    workspaceType: "main" | "axonverse",
+    title: string,
+    icon?: string | null,
+  ) => void;
+  removeTab: (workspaceId: string) => void;
+  setActiveTab: (workspaceId: string) => void;
+  reorderTabs: (fromIndex: number, toIndex: number) => void;
 
   // update boolean state
   updateSavingContent: (savingParams: SavingContent) => void;
@@ -97,13 +116,6 @@ export interface IUserWorkspaceStore {
     newWorkspaceType: "main" | "axonverse";
     newWorkspaceParentPageId: string | null;
   };
-  addNewRecentWorkspace: (
-    workspaceId: string,
-    workspaceType: string,
-    workspaceTitle: string,
-    workspaceIcon: string,
-    workspaceCover: string,
-  ) => void;
   removeWorkspace: (
     workspaceId: string,
     workspaceType: "main" | "axonverse",
@@ -167,7 +179,6 @@ export const useWorkspaceStore = create<IUserWorkspaceStore>((set) => ({
   workspace: {
     main: [],
     axonverse: [],
-    recent: [],
   },
   navOpen: true,
   allWorkspacesFetched: false,
@@ -175,6 +186,46 @@ export const useWorkspaceStore = create<IUserWorkspaceStore>((set) => ({
     workspaceId: null,
     savingStatus: false,
     workspaceType: null,
+  },
+  tabs: [],
+  activeTabId: null,
+  addTab: (workspaceId, workspaceType, title, icon = null) => {
+    set((state) => {
+      const existingTab = state.tabs.find(
+        (tab) => tab.workspaceId === workspaceId,
+      );
+      if (existingTab) {
+        return { activeTabId: workspaceId };
+      }
+      return {
+        tabs: [...state.tabs, { workspaceId, workspaceType, title, icon }],
+        activeTabId: workspaceId,
+      };
+    });
+  },
+  reorderTabs: (fromIndex, toIndex) => {
+    set((state) => {
+      if (fromIndex === toIndex) return state;
+      const newTabs = [...state.tabs];
+      const [moved] = newTabs.splice(fromIndex, 1);
+      newTabs.splice(toIndex, 0, moved);
+      return { tabs: newTabs };
+    });
+  },
+  removeTab: (workspaceId) => {
+    set((state) => {
+      const newTabs = state.tabs.filter(
+        (tab) => tab.workspaceId !== workspaceId,
+      );
+      let newActiveTabId = state.activeTabId;
+      if (state.activeTabId === workspaceId) {
+        newActiveTabId = newTabs.length > 0 ? newTabs[0].workspaceId : null;
+      }
+      return { tabs: newTabs, activeTabId: newActiveTabId };
+    });
+  },
+  setActiveTab: (workspaceId) => {
+    set({ activeTabId: workspaceId });
   },
   openNavHandler: () => {
     set((state) => ({
@@ -427,33 +478,6 @@ export const useWorkspaceStore = create<IUserWorkspaceStore>((set) => ({
     });
   },
 
-  addNewRecentWorkspace: (
-    workspaceId,
-    workspaceType,
-    workspaceTitle,
-    workspaceIcon,
-    workspaceCover,
-  ) => {
-    const newVisitedWorkspace: TNavigationWorkspaceContent = {
-      _id: workspaceId,
-      icon: workspaceIcon,
-      cover: workspaceCover,
-      title: workspaceTitle,
-      workspaceType: workspaceType,
-    };
-
-    set((state) => ({
-      workspace: {
-        ...state.workspace,
-        recent: state.workspace.recent
-          ? state.workspace.recent.length < 5
-            ? [newVisitedWorkspace, ...state.workspace.recent]
-            : [newVisitedWorkspace, ...state.workspace.recent.slice(0, -1)]
-          : [newVisitedWorkspace],
-      },
-    }));
-  },
-
   addNewParentWorkspace: (workspaceType, userId) => {
     const newWorkspace: IUserWorkspace = {
       _id: uuidv4(),
@@ -588,6 +612,17 @@ export const useWorkspaceStore = create<IUserWorkspaceStore>((set) => ({
         },
       }));
     }
+
+    set((state) => {
+      const newTabs = state.tabs.filter(
+        (tab) => tab.workspaceId !== workspaceId,
+      );
+      let newActiveTabId = state.activeTabId;
+      if (state.activeTabId === workspaceId) {
+        newActiveTabId = newTabs.length > 0 ? newTabs[0].workspaceId : null;
+      }
+      return { tabs: newTabs, activeTabId: newActiveTabId };
+    });
   },
 
   updateWorkspaceContent: (
