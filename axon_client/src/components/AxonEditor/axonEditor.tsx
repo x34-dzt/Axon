@@ -11,7 +11,6 @@ import {
 } from "novel";
 import { handleCommandNavigation } from "novel";
 import { useDebouncedCallback } from "use-debounce";
-import ReactDom from "react-dom/server";
 import { Separator } from "@/components/ui/separator";
 import { defaultExtensions } from "./extension";
 import { slashCommand, suggestionItems } from "./slashCommand";
@@ -21,9 +20,6 @@ import { TextButtons } from "./selectors/text-button";
 import { ColorSelector } from "./selectors/color-selector";
 import { type IUserWorkspace, useWorkspaceStore } from "@/stores/workspace";
 import { Code, Image } from "lucide-react";
-import { Button } from "../ui/button";
-import axios from "axios";
-import ReactMarkdown from "react-markdown";
 import useUpdateWorkspaceContent from "@/hooks/workspace/useUpdateWorkspaceContent";
 import useGetWorkspaceContent from "@/hooks/workspace/useGetContent";
 import { Skeleton } from "../ui/skeleton";
@@ -41,6 +37,8 @@ import {
   getDeletedImagesForCurrentWorkspace,
 } from "@/lib/deletedImages";
 import useDeleteImagesByUrl from "@/hooks/workspace/useDeleteImagesByUrl";
+import { TableBubbleMenu } from "./tableBubble";
+import { AxonAiModal } from "./AxonAi";
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -63,7 +61,6 @@ const extractImageUrls = (content: any): string[] => {
   if (content?.content) {
     content.content.forEach(traverse);
   }
-
   return urls;
 };
 
@@ -148,7 +145,6 @@ const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
     };
   }, []);
 
-  // function to update the workspace content
   const setWorkspaceContent = async () => {
     if (currentWorkspace.content !== null) {
       setLoading(true);
@@ -174,7 +170,6 @@ const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
     router.push(`/workspace/${newWorkspaceType}/${newWorkspaceId}`);
   };
 
-  // showing workspace loader
   if (loading) {
     return <WorkspaceLoader />;
   }
@@ -182,7 +177,7 @@ const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
   return (
     <div
       spellCheck="false"
-      className={`rounded-xl fade-in-0 animate-in ${currentWorkspace.workspaceWidth === "sm" ? "lg:w-[1024px] w-full" : "w-full"} custom-transition-all mx-auto flex relative items-center justify-center  px-[16px] md:px-[50px]`}
+      className={`rounded-xl fade-in-0 animate-in ${currentWorkspace.workspaceWidth === "sm" ? "lg:w-[1024px] w-full" : "w-full"} custom-transition-all mx-auto flex relative items-center justify-center px-[16px] md:px-[50px]`}
     >
       <EditorRoot>
         <EditorContent
@@ -235,9 +230,12 @@ const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
               savingStatus: true,
             });
           }}
+          onCreate={({ editor }) => {
+            setEditor(editor);
+          }}
         >
           <span />
-          <EditorCommand className="z-50 bg-neutral-900/80 backdrop-blur-lg  h-auto max-h-[330px] overflow-y-auto rounded-md border-neutral-800 border-2 px-1 py-2  shadow-md transition-all">
+          <EditorCommand className="z-50 bg-neutral-900/80 backdrop-blur-lg h-auto max-h-[330px] overflow-y-auto rounded-md border-neutral-800 border-2 px-1 py-2 shadow-md transition-all">
             <EditorCommandEmpty className="px-2 text-muted-foreground">
               No results
             </EditorCommandEmpty>
@@ -248,17 +246,14 @@ const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
                   setOpenAxonAiModal((prev) => !prev);
                   const { view } = editor;
                   const { top, left } = view.coordsAtPos(range.from);
-                  setCursorPosition({
-                    x: left,
-                    y: top,
-                  });
+                  setCursorPosition({ x: left, y: top });
                   editor.chain().focus().deleteRange(range).run();
                 }}
                 className={
-                  "flex  w-full group items-center space-x-2 transition-all cursor-pointer rounded-md px-2 py-1 text-left text-sm hover:bg-neutral-800 aria-selected:bg-neutral-800"
+                  "flex w-full group items-center space-x-2 transition-all cursor-pointer rounded-md px-2 py-1 text-left text-sm hover:bg-neutral-800 aria-selected:bg-neutral-800"
                 }
               >
-                <div className="flex h-10 bg-neutral-900 w-10 items-center justify-center  rounded-md border-2  border-neutral-700 border-muted bg-background">
+                <div className="flex h-10 bg-neutral-900 w-10 items-center justify-center rounded-md border-2 border-neutral-700 border-muted bg-background">
                   <Code size={18} />
                 </div>
                 <div>
@@ -278,17 +273,16 @@ const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
                   input.onchange = async () => {
                     if (input.files?.length) {
                       const file = input.files[0];
-                      const pos = editor.view.state.selection.from;
                       editor.commands.insertAxonImage(file);
                     }
                   };
                   input.click();
                 }}
                 className={
-                  "flex  w-full group items-center space-x-2 transition-all cursor-pointer rounded-md px-2 py-1 text-left text-sm hover:bg-neutral-800 aria-selected:bg-neutral-800"
+                  "flex w-full group items-center space-x-2 transition-all cursor-pointer rounded-md px-2 py-1 text-left text-sm hover:bg-neutral-800 aria-selected:bg-neutral-800"
                 }
               >
-                <div className="flex h-10 bg-neutral-900 w-10 items-center justify-center  rounded-md border-2  border-neutral-700 border-muted bg-background">
+                <div className="flex h-10 bg-neutral-900 w-10 items-center justify-center rounded-md border-2 border-neutral-700 border-muted bg-background">
                   <Image size={18} />
                 </div>
                 <div>
@@ -305,10 +299,10 @@ const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
                   handleAddWorkspace(currentWorkspace.workspace);
                 }}
                 className={
-                  "flex  w-full group items-center space-x-2 transition-all cursor-pointer rounded-md px-2 py-1 text-left text-sm hover:bg-neutral-800 aria-selected:bg-neutral-800"
+                  "flex w-full group items-center space-x-2 transition-all cursor-pointer rounded-md px-2 py-1 text-left text-sm hover:bg-neutral-800 aria-selected:bg-neutral-800"
                 }
               >
-                <div className="flex h-10 bg-neutral-900 w-10 items-center justify-center  rounded-md border-2  border-neutral-700 border-muted bg-background">
+                <div className="flex h-10 bg-neutral-900 w-10 items-center justify-center rounded-md border-2 border-neutral-700 border-muted bg-background">
                   <Code size={18} />
                 </div>
                 <div>
@@ -324,11 +318,11 @@ const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
                   value={item.title}
                   onCommand={(val) => item.command?.(val)}
                   className={
-                    "flex  w-full group items-center space-x-2 transition-all cursor-pointer rounded-md px-2 py-1 text-left text-sm hover:bg-neutral-800 aria-selected:bg-neutral-800"
+                    "flex w-full group items-center space-x-2 transition-all cursor-pointer rounded-md px-2 py-1 text-left text-sm hover:bg-neutral-800 aria-selected:bg-neutral-800"
                   }
                   key={item.title}
                 >
-                  <div className="flex h-10 bg-neutral-900 w-10 items-center justify-center  rounded-md border-2  border-neutral-700 border-muted bg-background">
+                  <div className="flex h-10 bg-neutral-900 w-10 items-center justify-center rounded-md border-2 border-neutral-700 border-muted bg-background">
                     {item.icon}
                   </div>
                   <div>
@@ -342,11 +336,11 @@ const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
             </EditorCommandList>
           </EditorCommand>
 
+          <TableBubbleMenu editor={editor} />
+
           <EditorBubble
-            tippyOptions={{
-              placement: "top",
-            }}
-            className="flex w-fit max-w-[90vw]  overflow-hidden rounded-md border-2 border-neutral-800 bg-neutral-900/50 backdrop-blur-lg shadow-xl"
+            tippyOptions={{ placement: "top" }}
+            className="flex w-fit max-w-[90vw] overflow-hidden rounded-2xl border-2 border-neutral-800 bg-accent/40 backdrop-blur-lg shadow-xl"
           >
             <Separator orientation="vertical" />
             <NodeSelector open={openNode} onOpenChange={setOpenNode} />
@@ -364,7 +358,8 @@ const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
           </EditorBubble>
         </EditorContent>
       </EditorRoot>
-      {openAxonAiModal && (
+
+      {true && (
         <AxonAiModal
           editor={editor}
           open={openAxonAiModal}
@@ -378,139 +373,9 @@ const AxonEditor = ({ currentWorkspace, workspaceId }: EditorProp) => {
 
 export default AxonEditor;
 
-// axon ai modal to allow user to type the axon ai
-const AxonAiModal = ({
-  onClose,
-  position,
-  editor,
-}: {
-  open: boolean;
-  onClose: () => void;
-  position: { x: number; y: number };
-  editor: Editor | null;
-}) => {
-  const [inputText, setInputText] = useState("");
-  const [geminiResponse, setGeminiResponse] = useState<string>("");
-  const [error, setError] = useState<string>("");
-
-  const [loading, setLoading] = useState<boolean>(false);
-  const inputRef = useRef<HTMLTextAreaElement | null>(null);
-
-  const generateResponse = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.post(
-        "/api/generate",
-        {
-          prompt: inputText,
-        },
-        {
-          withCredentials: true,
-        },
-      );
-
-      if (response.data.text) {
-        setGeminiResponse(response.data.text);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleInsert = () => {
-    const htmlString = ReactDom.renderToString(
-      <ReactMarkdown>{geminiResponse}</ReactMarkdown>,
-    );
-    if (editor) {
-      editor.chain().focus().insertContent(htmlString).run();
-      setInputText("");
-      onClose();
-    }
-  };
-
-  useEffect(() => {
-    if (!inputRef.current) return;
-    inputRef.current.focus();
-  }, []);
-
-  return (
-    <div
-      className={
-        "fixed  p-4 w-[600px] bg-neutral-900/50 backdrop-blur-md shadow-lg border-2 border-neutral-800 rounded-lg"
-      }
-      style={{
-        top: `${position.y + 10}px`,
-        left: `${position.x + 10}px`,
-      }}
-    >
-      <div className={`${loading ? "animate-pulse" : "animate-none"}`}>
-        <div className="flex justify-between items-center fade-in-0 animate-in">
-          <h3 className="text-white font-bold">Axon AI</h3>
-        </div>
-        {geminiResponse && (
-          <div className="animate-in fade-in-0">
-            Response:
-            <div className="bg-neutral-800 p-2 max-h-[200px] overflow-y-auto rounded-md">
-              <div className="prose prose-invert max-w-none prose-headings:text-white prose-p:text-gray-300 prose-a:text-blue-400 prose-strong:text-white prose-ul:text-gray-300 prose-ol:text-gray-300 prose-pre:bg-neutral-800 prose-code:text-white">
-                <ReactMarkdown>{geminiResponse}</ReactMarkdown>
-              </div>
-            </div>
-          </div>
-        )}
-        {error && (
-          <p className="text-red-500 text-[13px]">
-            Error generating response: {error}
-          </p>
-        )}
-        <div className="mt-2 text-white fade-in-0 animate-in">
-          <textarea
-            rows={1}
-            ref={inputRef}
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            placeholder="Ask ai anything.."
-            className="ring-0 animate-in fade-in-0 rounded-md focus:border-none focus:outline-none px-2 py-1 w-full border-0 bg-neutral-900 backdrop-blur-md focus-visible:ring-offset-0 focus-visible:ring-0"
-          />
-        </div>
-        <div className="mt-2 flex gap-2">
-          {geminiResponse && (
-            <Button
-              onClick={handleInsert}
-              size="sm"
-              className="bg-neutral-800 animate-in fade-in-0 hover:bg-neutral-700"
-            >
-              Insert
-            </Button>
-          )}
-          <Button
-            onClick={generateResponse}
-            disabled={loading}
-            size="sm"
-            className={`bg-neutral-800 hover:bg-neutral-700 text-white ${loading && "animate-pulse"}`}
-          >
-            {loading ? "Generating..." : "Generate"}
-          </Button>
-
-          <Button
-            onClick={onClose}
-            size="sm"
-            className="bg-neutral-800 hover:bg-neutral-700 text-white"
-          >
-            {geminiResponse ? "Discard" : "Close"}
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const WorkspaceLoader = () => {
   return (
-    <p className=" py-[20px] max-w-5xl flex flex-col gap-4 mx-auto px-[50px] animate-pulse">
+    <p className="py-[20px] max-w-5xl flex flex-col gap-4 mx-auto px-[50px] animate-pulse">
       <Skeleton className="h-[20px] w-full bg-neutral-800" />
       <Skeleton className="h-[20px] w-full bg-neutral-800" />
       <Skeleton className="h-[20px] w-full bg-neutral-800" />
