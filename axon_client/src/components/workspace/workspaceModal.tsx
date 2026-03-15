@@ -275,7 +275,7 @@ const WorkspaceModal = ({
               <div className="parent_backdrop--blur bg-customMain/70 border-neutral-800 border rounded-xl flex py-2 pr-2 pl-4 items-center gap-3">
                 <DynamicIcon
                   name={currentWorkspace.icon}
-                  DClassName="size-[20px] translate-y-[0.2px]"
+                  className="size-[20px] translate-y-[0.2px]"
                 />
                 <Input
                   placeholder="Enter a new name"

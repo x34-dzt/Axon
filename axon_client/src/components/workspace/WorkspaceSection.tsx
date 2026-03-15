@@ -2,7 +2,6 @@
 
 import { useWorkspaceStore, type WorkspaceStore } from "@/stores/workspace";
 import Workspace from "./Workspace";
-import RecentWorkspace from "./RecentWorkspace";
 import { IoIosAdd } from "react-icons/io";
 import { useAuthStore } from "@/stores/auth";
 import useCreateNewParentWorkspace from "@/hooks/workspace/useCreateParentWorkspace";
@@ -81,7 +80,6 @@ const WorkspaceSection = () => {
 
   return (
     <>
-      <RecentWorkspace />
       <div className="text-[11px] flex items-center justify-between gap-1 group ">
         <span className="text-neutral-500">Main</span>
         {!isLoading && (

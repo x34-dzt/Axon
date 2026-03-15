@@ -75,7 +75,7 @@ const WorkspaceModalMoveToSectionFolder = ({
               width={17}
               height={17}
               name={workspaceLink.icon}
-              DClassName={"translate-y-[2px]"}
+              className={"translate-y-[2px]"}
             />
             <span>
               {workspaceLink.title
@@ -174,7 +174,7 @@ const WorkspaceMoveToSubFolder = ({
               width={17}
               height={17}
               name={workspaceLink.icon}
-              DClassName={"translate-y-[2px]"}
+              className={"translate-y-[2px]"}
             />
             <span>
               {workspaceLink.title
