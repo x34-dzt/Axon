@@ -6,6 +6,7 @@ import {
   Heading3,
   List,
   ListOrdered,
+  Table,
   Text,
   TextQuote,
 } from "lucide-react";
@@ -132,6 +133,20 @@ export const suggestionItems = createSuggestionItems([
     icon: <Code size={18} />,
     command: ({ editor, range }) =>
       editor.chain().focus().deleteRange(range).setCodeBlock().run(),
+  },
+  {
+    title: "Table",
+    description: "Add a table with rows and columns.",
+    searchTerms: ["table", "grid", "spreadsheet", "rows", "columns"],
+    icon: <Table size={18} />,
+    command: ({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+        .run();
+    },
   },
 ]);
 
